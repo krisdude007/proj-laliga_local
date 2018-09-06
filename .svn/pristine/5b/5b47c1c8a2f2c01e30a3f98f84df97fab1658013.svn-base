@@ -1,0 +1,48 @@
+<div id="pageContainer" class="container">
+    <div class="subContainer">
+        <div class="row">
+            <div class="col-sm-4 col-sm-offset-4 col-xs-8 col-xs-offset-2">
+                <h1><?php echo Yii::t('youtoo','Get Your Password Here')?></h1>
+                <?php
+                $form = $this->beginWidget('CActiveForm', array(
+                    'id' => 'user-retrieve-form',
+                    'enableAjaxValidation' => true,
+                    'clientOptions' => array(
+                        'validateOnSubmit' => true,
+                        'validateOnChange' => true,
+                        'validateOnType' => false,
+                    )
+                ));
+                ?>
+                <div>&nbsp;</div>
+                <p class="lead"><?php echo Yii::t('youtoo','Enter Email')?></p>
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon">Email</span>
+                    <?php echo $form->textField($model, 'username', array('class' => 'form-control', 'placeholder' => '')); ?>
+                </div>
+                <div>
+                    <span class="help-block">
+                        <?php echo $form->error($model, 'username'); ?>
+                    </span>
+                </div>
+                <?php echo $form->hiddenField($model, 'source', array('value' => 'web')); ?>
+                <input id="screen_width" type="hidden" name="screen_width" value="" />
+                <input id="screen_height" type="hidden" name="screen_height" value="" />
+                <div>&nbsp;</div>
+                <div>
+                    <?php
+                    echo CHtml::submitButton(Yii::t('youtoo','Submit'), array('class' => 'btn btn-default btn-lg active',
+                        'role' => 'button'));
+                    ?>
+                </div>
+                <div>&nbsp;</div>
+                <?php $this->endWidget(); ?>
+
+                <?php echo Yii::t('youtoo','New to the site?')?> <a href="<?php echo $this->createUrl('/user/login', array());?>"><?php echo Yii::t('youtoo','Register Here')?></a>
+                <div>&nbsp;</div>
+                <?php echo Yii::t('youtoo','Remember your Password?')?> <a href="<?php echo $this->createUrl('/login', array());?>"><?php echo Yii::t('youtoo','Login Here')?></a>
+                <div>&nbsp;</div>
+            </div>
+        </div>
+    </div>
+</div>

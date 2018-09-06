@@ -1,0 +1,69 @@
+<div id="pageContainer" class="container">
+    <div class="subContainer">
+        <?php if (Yii::app()->user->isGuest): ?>
+            <div id="sidebar-wrapper">
+                <ul class="sidebar-nav">
+                    <li class="sidebar-brand" style="text-indent: 30px; height: 55px;"><a href="#" style="font-size: 21px; font-weight: 500;">Join Now</a></li><li class="btn btn-default btn-sm startButton" style="text-indent: 0; line-height: normal;"><?php echo Yii::t('youtoo','Get Started');?></li><hr class='hr'/>
+                    <li class="<?php if ($this->activeNavLink == 'index'): ?>active<?php endif; ?>"><a href="<?php echo $this->createUrl('/site/index', array()); ?>"><?php echo Yii::t('youtoo','Main');?></a></li>
+                    <li class="<?php if ($this->activeNavLink == 'redeem'): ?>active<?php endif; ?>"><a href="<?php echo $this->createUrl('/site/redeem', array()); ?>"><?php echo Yii::t('youtoo','Store');?></a></li>
+                    <li class="<?php if ($this->activeNavLink == 'winners'): ?>active<?php endif; ?>"><a href="<?php echo $this->createUrl('/site/winners', array()); ?>"><?php echo Yii::t('youtoo','Winners');?></a></li>
+<!--                    <li><a href="#"><?php echo Yii::t('youtoo','Refer a Friend');?></a></li>-->
+                    <li><a href="<?php echo $this->createUrl('/site/faq', array()); ?>"><?php echo Yii::t('youtoo','FAQ');?></a></li>
+                </ul>
+            </div>
+        <?php else: ?>
+            <div id="sidebar-wrapper" style="margin-left: -230px;">
+                <ul class="sidebar-nav">
+                    <?php $geoLocation = GeoUtility::GeoLocation(); ?>
+                    <?php $this->renderPartial('/site/_userInfo', array('geoLocation' => $geoLocation)); ?>
+                    
+                    <li><a href="<?php echo $this->createUrl('/site/index', array()); ?>"><?php echo Yii::t('youtoo', 'Main'); ?></a></li>
+                    <li><a href="<?php echo $this->createUrl('/site/redeem', array()); ?>"><?php echo Yii::t('youtoo', 'Store'); ?></a></li>
+                    <li><a href="<?php echo $this->createUrl('/site/winners', array()); ?>"><?php echo Yii::t('youtoo', 'Winners'); ?></a></li>
+<!--                    <li><a href="#"><?php echo Yii::t('youtoo', 'Refer a Friend'); ?></a></li>-->
+                    <li><a href="<?php echo $this->createUrl('/site/faq', array()); ?>"><?php echo Yii::t('youtoo', 'FAQ'); ?></a></li>
+                    <li class="panel panel-default" id="dropdown">
+                        <a data-toggle="collapse" href="#dropdown-lvl1">
+                            <span></span> <?php echo Yii::t('youtoo','Account');?> <span class="caret"></span>
+                        </a>
+                        <?php if (Yii::app()->controller->id == 'user' && Yii::app()->controller->action->id == 'credits'): ?>
+                            <div id="dropdown-lvl1" class="panel-collapse in">
+                            <?php else: ?>
+                                <div id="dropdown-lvl1" class="panel-collapse collapse">
+                                <?php endif; ?>
+                                <div class="panel-body">
+                                    <ul class="nav navbar-nav">
+                                        <li><a style='color: #ffffff;' <?php if ($this->activeSubNavLink == 'basicinfo'): ?>class='active'<?php endif; ?> href="<?php echo $this->createUrl('/user/profile', array()); ?>"><?php echo Yii::t('youtoo', 'Basic Info'); ?></a></li>
+                                        <li><a style='color: #ffffff;' <?php if ($this->activeSubNavLink == 'password'): ?>class='active'<?php endif; ?> href="<?php echo $this->createUrl('/user/password', array()); ?>"><?php echo Yii::t('youtoo', 'Password'); ?></a></li>
+                                        <li><a style='color: #ffffff;' <?php if ($this->activeSubNavLink == 'credits'): ?>class='active'<?php endif; ?> href="<?php echo $this->createUrl('/user/credits', array()); ?>"><?php echo Yii::t('youtoo', 'Credits'); ?></a></li>
+                                        <li><a style='color: #ffffff;' <?php if ($this->activeSubNavLink == 'paymentinfo'): ?>class='active'<?php endif; ?> href="<?php echo $this->createUrl('/payment', array()); ?>"><?php echo Yii::t('youtoo', 'Payment Method'); ?></a></li>
+                                        <li><a style='color: #ffffff;' <?php if ($this->activeSubNavLink == 'connections'): ?>class='active'<?php endif; ?> href="<?php echo $this->createUrl('/user/credits', array()); ?>"><?php echo Yii::t('youtoo', 'Connections'); ?></a></li>
+                                        <li><a style='color: #ffffff;' href="<?php echo $this->createUrl('/user/logout', array()); ?>"><?php echo Yii::t('youtoo', 'Log Out'); ?></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                    </li>
+                </ul>
+            </div>
+        <?php endif; ?>
+        <div class='row'>
+            <div class='col-sm-10 col-sm-offset-2' style='padding-left: 0px;'>
+                <img src="/webassets/images/laliga/image_congrats.png" style=" max-width: 100%; margin-bottom: 10px;margin-top: 40px;"/>
+                <div style="margin-top: 20px;">
+                    <span><img src="/webassets/images/laliga/image_friday-night-futbol.png" style="padding-right: 13px;max-width: 263px; width:100%;"/></span>
+                    <span><img src="/webassets/images/laliga/image_win-1000_congrats.png" style="padding-right: 13px;max-width: 263px; width:100%;"/></span>
+                    <span><img src="/webassets/images/laliga/image_redeem-points_congrats.png" style='max-width: 250px; width: 100%;'/></span>
+                </div>
+            </div>
+        </div>
+        <div class='congrats-buttons' style="margin-bottom: 80px;">
+            <div class='row'>
+                <div class='col-sm-10 col-sm-offset-2' style='padding-right: 0px; padding-left: 0px; max-width: 780px;'>
+                    <span class='col-sm-4' style='padding-left: 0px;'><a class='btn btn-default btn-md' href='<?php echo $this->createUrl('/site/index', array()); ?>'><?php echo Yii::t('youtoo','Play Now');?></a></span>
+                    <span class='col-sm-4'><a class='btn btn-default btn-md' href='<?php echo $this->createUrl('/site/index', array()); ?>'><?php echo Yii::t('youtoo','Play Now');?></a></span>
+                    <span class='col-sm-4'><a class='btn btn-default btn-md' href='<?php echo $this->createUrl('/redeem', array()); ?>'><?php echo Yii::t('youtoo','Shop Now');?></a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+<div class='as-table'>
+    <div>
+        <div class="homeTop" style="width: 60%; float: left;">
+            <h4 style="margin-left: 40px; margin-bottom: 3px;">Next event live in <span style="background-color: #fbd927;"></span></h4>
+        </div>
+        <div class="homeTop" style="width: 40%; float: left; background-color: #fbd927;"><h4 style="margin-left: 40px; margin-bottom: 3px;"></h4></div>
+    </div>
+    <div style='position: relative;'>
+        <img class=homeImage src="/webassets/mobile/images/Image_Logo_Landing.png"/>
+    </div>
+    <div class="homeFooter text-center as-table-row">
+        <div style='height:33%;'>
+            <div style='height:100%; position: relative;'>
+                <a onclick="window.location='<?php echo Yii::app()->createUrl('site/indexlinks'); ?>'"><img src="/webassets/mobile/images/Icon_team_win.png" style="width: 100%;"/></a>
+            </div>
+        </div>
+        <div style='height:33%; position: relative;'>
+            <div style='height:100%;'>
+                <a onclick="window.location='<?php echo Yii::app()->createUrl('/redeem'); ?>'"><img src="/webassets/mobile/images/Icon_redeem.png" style="width: 100%;"/></a>
+            </div>
+        </div>
+        <div style='height:34%; position: relative;'>
+            <div style='height:100%;'>
+                <a onclick="window.location='<?php echo Yii::app()->createUrl('site/indexlinks'); ?>'"><img src="/webassets/mobile/images/Icon_refer_friend.png" style="width: 100%;"/></a>
+            </div>
+        </div>
+    </div>
+</div>

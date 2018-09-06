@@ -1,0 +1,49 @@
+<?php
+// page specific css
+Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl . '/core/webassets/css/jquery-ui-1.10.0.css');
+Yii::app()->clientScript->registerScriptFile('http://cdn.jquerytools.org/1.2.7/all/jquery.tools.min.js', CClientScript::POS_END);
+?>
+<div id="pageContainer" class="container">
+    <?php $this->renderPartial('_top', array()); ?>
+    <div class="row">
+        <div class="col-sm-3 col-xs-12 floatLeft">
+            <?php $this->renderPartial('_sidebar', null); ?>
+        </div>
+        <div class="col-sm-9 col-xs-12 floatRight">
+            <p>&nbsp</p>
+            <div class="form">
+                <?php
+                $form = $this->beginWidget('CActiveForm', array(
+                    'id' => 'user-password-form',
+                    'enableAjaxValidation' => true,
+                    'htmlOptions' => array('enctype' => 'multipart/form-data'),
+                ));
+                ?>
+
+                <div class="form-group col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
+                    <?php echo (Yii::t('youtoo','Change your password or recover password'));?>
+                    <p>&nbsp;</p>
+                    <p>
+                        <label for="Password"><?php echo Yii::t('youtoo', 'New Password') ?></label>
+                        <?php echo $form->passwordField($user, 'newPassword', array('class' => 'form-control', 'placeholder' => Yii::t('youtoo', 'Password'))); ?>
+                        <?php echo $form->error($user, 'newPassword'); ?>
+                    </p>
+                    <p>
+                        <label for="Password"><?php echo Yii::t('youtoo', 'Confirm Password') ?></label>
+                        <?php echo $form->passwordField($user, 'newPasswordConfirm', array('class' => 'form-control', 'placeholder' => Yii::t('youtoo', 'Confirm Password'))); ?>
+                        <?php echo $form->error($user, 'newPasswordConfirm'); ?>
+                    </p>
+
+                    <p>&nbsp;</p>
+                    <p>
+                        <?php
+                        echo CHtml::submitButton(Yii::t('youtoo', 'Submit'), array('class' => 'btn btn-default btn-lg active',
+                            'role' => 'button'));
+                        ?>
+                    </p>
+                    <?php $this->endWidget(); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

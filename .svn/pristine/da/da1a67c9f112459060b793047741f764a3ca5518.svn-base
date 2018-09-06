@@ -1,0 +1,95 @@
+<div class="text">
+    <div class='help'>
+        <div>
+            <h4><?php echo Yii::t('youtoo', 'Rules') ?></h4>
+        </div>
+        <div style='color:#474747;'>
+            <p>
+                <strong>Reglas Azteca</strong>
+            </p>
+            <p>
+                El Sorteo es organizado por Azteca, en lo sucesivo “Organizador.” El usuario, en lo sucesivo será denominado “jugador, participante, ganador, no ganador.”
+                Cada entrada al Sorteo será de $1 (un dólar estadounidense) pagado por medio de tarjeta de crédito o cuenta de Paypal como se explica a continuación.
+            </p>
+            <p>
+                <strong>Fechas de Apertura y Cierre del Sorteo</strong>
+            </p>
+            <p>
+                El Sorteo se llevará al cabo semanalmente del 17 de julio al 31 de diciembre del 2015. Azteca tiene la opción de cerrar o extender el Sorteo, de ser este
+                el caso, actualizará las Reglas y las publicara en la pagina web correspondiente. Las entradas recibidas posterior al cierre del Sorteo, sin importar la
+                razón, no serán aceptadas para ganar un premio o participar en el Sorteo.
+            </p>
+            <p>
+                <strong>Descripción del Sorteo</strong>
+            </p>
+            <p>
+                El sorteo es interactivo con preguntas de opción múltiple las cuales requieren una respuesta; se le pedirá al jugador que escoja la respuesta correcta y
+                así tendrá la oportunidad de calificar para el Sorteo y poder ganar premios.
+            </p>
+            <p>
+                <strong>Participantes </strong>
+            </p>
+            <p>
+                Los empleados (o miembros de sus familias o personas que habiten en la residencia de los empleados) del Organizador, sus socios, parejas y familiares
+                directos, no califican para participar en el Sorteo.
+            </p>
+            <p>
+                <strong>Formas de Entrada</strong>
+            </p>
+            <p>
+                Existen dos formas de entrar al Sorteo: sitio web o correo.
+            </p>
+            <p>
+                <strong>Reglas de Participación</strong>
+            </p>
+            <p>
+                Una vez que el participante entre al Sorteo a través de la pagina web, el usuario/participante podrá contestar la pregunta escogiendo una de las respuestas
+                posibles (una respuesta es correcta y las demás incorrectas). El participante responderá las preguntas haciendo clic en el “botón” de la respuesta de su
+                elección. El participante puede jugar hasta 10 veces por día. Mientras más entradas correctas tenga un jugador, mayor la posibilidad de ganar.
+            </p>
+            <p>
+                Por cada respuesta correcta a la pregunta, el jugador recibe una entrada al sorteo del premio. Todos los jugadores recibirán créditos por jugar, éstos
+                serean utilizados en la tienda. Los créditos tienen una relación 1 a 1; es decir, el precio actual por jugar es de $1 (un dólar estadounidense); por lo
+                tanto, los jugadores reciben 1 crédito para utilizar en la tienda por cada entrada. Las respuestas incorrectas/no válidas no reciben entrada al sorteo del
+                premio, pero sí reciben créditos para ser utilizados en la tienda.
+            </p>
+            <p>
+                <strong>Selección del Ganador</strong>
+            </p>
+            <p>
+                Los ganadores semanales serán seleccionados al azar a través de una plataforma computarizada.
+            </p>
+            <p>
+                El Organizador se reserva el derecho de cancelar o modificar los Términos y Condiciones/Reglas Oficiales en cualquier momento. Cualquier cambio será
+                publicado en línea en us.azteca.com/concursos.
+            </p>
+            <p>
+                <strong>Condiciones de los Premios</strong>
+            </p>
+            <p>
+                Un representante elegido por Azteca notificará al ganador por correo electrónico.
+            </p>
+            <p>
+                Los ganadores deberán confirmar, por medio de la firma de una forma de consentimiento, que tienen derecho al premio y deberán completar todos los
+                documentos necesarios que sean proporcionados por el Organizador. Todos los ganadores deberán presentar físicamente una identificación válida para poder
+                recibir el premio.
+            </p>
+            <p>
+                El Organizador enviará por correo el premio al ganador una vez que la verificación de la documentación requerida sea completada.
+            </p>
+            <p>
+                Los premios deberán ser reclamados en la forma y dentro del tiempo especificado en las Condiciones del Sorteo. El no reclamar un premio dentro de este
+                tiempo o de la manera especificada puede resultar en la descalificación y la selección de un ganador alterno. El ganador será responsable de pagar
+                cualquier impuesto relacionado al premio.
+            </p>
+            <p>
+                <strong>Terminación</strong>
+            </p>
+            <p>
+                La interrupción o terminación temprana del Sorteo, no absuelve al Organizador de su obligación de dar a conocer los premios ya adjudicados y ejecutar otras
+                acciones necesarias, a excepción de los casos en que la terminación o interrupción del Sorteo sea a causa de acciones o eventos que no están bajo el
+                control del Organizador o que se descubra que existe fraude y éste haya sido debidamente evaluado por las autoridades.
+            </p>
+        </div>
+    </div>
+</div>

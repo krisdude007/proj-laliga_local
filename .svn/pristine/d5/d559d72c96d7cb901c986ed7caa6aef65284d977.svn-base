@@ -1,0 +1,55 @@
+<html>
+    <head>
+    	<meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+
+    </head>
+    <body style='width:626px;height:680px;background-color:#ececec;font-family:Arial;font-size:12px; color: #696969;padding-top:10px;'>
+
+        <div id='content' style='width:600px;   margin:0 auto;background-color:#ffffff; '>
+
+           <img src='http://{hostname}/webassets/images/Header.png'/>
+           <div style='padding-left:10px; padding-right:10px;'>
+                <div style='font-size:28px;color:#696969;font-weight:bold;margin-bottom:10px;'>Your video has not been approved</div>
+                <p>Hi <span style='font-weight:bold;'>{first_name} {last_name},</span></p>
+
+                <p>
+                So sorry, but your video submission has not been accepted for consideration on Youtoo America TV!
+    			</p>
+    			<p>
+             		But don't be discouraged. You may want to review the "help" section, by logging onto your <a href='http://www.youtoo.com'>youtoo.com</a> account to see some helpful
+             		tips on how to make a video.
+    			</p>
+
+
+
+                <p>
+                     We do want to thank you for your submission, and encourage your to try again.
+     			</p>
+
+
+
+                <p>
+                Thanks!<br>
+                Youtoo America<br>
+                <a href='http://www.youtoo.com'>www.youtoo.com</a>
+                </p>
+                <br>
+                <div style='width:200px;height:30px;background-color:#1792cd;display:block;padding-top:15px;'>
+             		<a href='http://{hostname}/videos/recent' style='position:absolute !important;color:#ffffff; font-size:14px;font-weight:bold;text-decoration:none; padding-left:21px;'>GO SEE MORE VIDEOS</a>
+             	</div>
+             	<br>
+             	<br>
+            </div>
+        </div>
+         <div style='padding-left:5px;'>
+            <p>
+            	To UNSUBSCRIBE from future email notifications,  <a href='http://{hostname}/you/profile' style='color: #636363'>click here</a><br>
+            </p>
+            <p style='margin-top:15px;'>
+            	&#169; <?php echo date('Y'); ?> Youtoo Interactive <a style='color:#696969;' href='http://www.youtoo.com/you/terms' target='_blank'>Terms of Use</a> & <a style='color:#696969;' href='http://www.youtoo.com/you/privacy' target='_blank' >Privacy Policy</a>.
+             	Youtoo Technologies, LLC <a href='http://youtootech.com/patents' target='_blank' style='color: #636363'>youtootech.com/patents</a>
+            </p>
+        </div>
+
+    </body>
+</html>

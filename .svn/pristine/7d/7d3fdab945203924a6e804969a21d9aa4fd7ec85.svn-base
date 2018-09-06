@@ -1,0 +1,40 @@
+<style>
+    .link div a:after {
+        top: 9px;
+    }
+</style>
+<?php
+$prizeFormat = '<div class="link">
+                    <div>%s<img style="width: 40px; border: 1px solid #474747;" src="%s"/><a id="redeemSubmit" href="#"><span style="margin-left: 30px; font-size: 15px;">%s</span></a></div>
+                    <hr style="margin: 0px;"></hr>
+                </div>
+               ';
+
+if (sizeof($prizes) > 0) {
+                    foreach ($prizes as $prize) {
+                        $form = $this->beginWidget('CActiveForm', array(
+                            'id' => 'user-redeem-form',
+                            'enableAjaxValidation' => false,
+                            'clientOptions' => array(
+                                'validateOnSubmit' => false,
+                                'validateOnChange' => false,
+                                'validateOnType' => false,
+                            )
+                        ));
+                        if ($prize->quantity > 0) {
+                            echo sprintf(
+                                    $prizeFormat, $form->hiddenField($prize, 'id', array('value' => $prize->id)),'/' . basename(Yii::app()->params['paths']['image']) . "/{$prize->image}", $prize->name
+                                    );
+                    $this->endWidget();
+                        }
+                    }
+                }
+
+
+?>
+<script>
+
+       $('#redeemSubmit').on('click', function() {
+           $('#user-redeem-form').submit();
+        });
+</script>

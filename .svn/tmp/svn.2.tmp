@@ -1,0 +1,51 @@
+<div id="pageContainer" class="container" style="padding-left: 0px;">
+    <div class="subContainer" style="padding: 0px;">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand" style="text-indent: 30px; height: 55px;"><a href="#" style="font-size: 21px; font-weight: 500;">Join Now</a></li><li class="btn btn-default btn-sm startButton" style="text-indent: 0; line-height: normal;">Get Started</li><hr class='hr'/>
+                <li class="<?php if ($this->activeNavLink == 'index'): ?>active<?php endif; ?>"><a href="<?php echo $this->createUrl('/playnow', array()); ?>">Main</a></li>
+                <li class="<?php if ($this->activeNavLink == 'redeem'): ?>active<?php endif; ?>"><a href="<?php echo $this->createUrl('/site/redeem', array()); ?>">Store</a></li>
+                <li class="<?php if ($this->activeNavLink == 'winners'): ?>active<?php endif; ?>"><a href="<?php echo $this->createUrl('/site/winners', array()); ?>">Winners</a></li>
+                <li><a href="#">Refer a Friend</a></li>
+                <li><a href="#">FAQ</a></li>
+            </ul>
+        </div>
+        <img src="/webassets/images/laliga/image_win-real-cash.png" style="position: relative; top: -20px; max-width: 100%;"/>
+        <div style="position: relative; top: -10px;">
+            <span><img src="/webassets/images/laliga/image_refer-a-friend.png" style="padding-right: 15px;"/></span>
+            <span><img src="/webassets/images/laliga/image_win-1000.png" style="padding-right: 13px;"/></span>
+            <span><img src="/webassets/images/laliga/image_redeem-points.png"/></span>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-lg-12" style="padding-left: 12px; padding-right: 10px;">
+            <div class="table-responsive">
+                <table class="table">
+                    <col width="30%">
+                    <thead style="background-color: #cfcfcf; border-color: #cfcfcf;">
+                        <tr>
+                            <th style="text-align: left;"><?php echo Yii::t('youtoo', 'Game') ?></th>
+                            <th style="text-align: left;"><?php echo Yii::t('youtoo', 'Entries') ?></th>
+                            <th style="text-align: left;"><?php echo Yii::t('youtoo', 'Entry Fee') ?></th>
+                            <th style="text-align: left;"><?php echo Yii::t('youtoo', 'Prize') ?></th>
+                            <th style="text-align: left;"><?php echo Yii::t('youtoo', 'Live') ?></th>
+                            <th style="text-align: left; background-color: #eeeeee; border-left: 1px solid #cfcfcf;"><?php echo Yii::t('youtoo', 'Next event live in') ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $q = 1; ?>
+                        <?php foreach ($games as $game): ?>
+                                <tr class="<?php echo $q % 2 == 0 ? 'even' : 'odd';?>">
+                                    <td class="alignLeft" style="vertical-align: middle; text-align: left; color: #ea8417; border-top: none;"><?php echo $game->description; ?></td>
+                                    <td class="alignLeft" style="vertical-align: middle; border-top: none;"><?php echo ($game->num_users_free + $game->num_users_paid); ?></td>
+                                    <td class="alignLeft" style="vertical-align: middle;border-top: none;"><?php echo '$'.$game->price; ?></td>
+                                    <td class="alignLeft" style="vertical-align: middle;border-top: none;"><?php echo $game->prize; ?></td>
+                                    <td class="alignLeft" style="vertical-align: middle;border-top: none;"><?php echo date('m/d/y <\b\\r> m:i:s', strtotime($game->start_date)); ?></td>
+                                    <td style='text-align: center;border-top: none;' ><?php echo '<a class="btn btn-default btn-md" style="font-weight: 700; font-size: 15px; min-width: 114px; min-height: 37px;" href="'.$this->createUrl('/playnow', array()).'">Play Now</a>'; ?></td>
+                                    <?php ++$q; ?>
+                                </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                    </table>
+            </div>
+        </div>
+    </div>
+</div>

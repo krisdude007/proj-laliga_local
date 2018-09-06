@@ -1,0 +1,132 @@
+<div id="pageContainer" class="container" style="padding-left: 0px;"><?php //if(isset($_GET['f'])){ echo $_GET['f']; } exit; ?>
+    <div class="subContainer" style="padding: 0px;">
+        <?php $this->renderPartial('_sideBar', array()); ?>
+        <?php if (Yii::app()->user->isGuest): ?>
+            <img src="/webassets/images/laliga/image_win-real-cash<?php echo (Yii::app()->language == 'en') ? '_eng' : '';?>.png" style="position: relative; top: -20px; max-width: 100%;"/>
+            <div style="position: relative; top: -10px;">
+                <span><img src="/webassets/images/laliga/image_refer-a-friend<?php echo (Yii::app()->language == 'en') ? '_eng' : '';?>.png" style="padding-right: 15px;max-width: 260px; width:100%;"/></span>
+                <span><img src="/webassets/images/laliga/image_win-1000<?php echo (Yii::app()->language == 'en') ? '_eng' : '';?>.png" style="padding-right: 13px;max-width: 261px; width:100%;"/></span>
+                <span><img src="/webassets/images/laliga/image_redeem-points<?php echo (Yii::app()->language == 'en') ? '_eng' : '';?>.png" style="max-width: 249px; width:100%;"/></span>
+            </div>
+        <?php else: ?>
+            <?php if (isset($_GET['f']) && $_GET['f'] == 'g'): ?>
+                <div class='col-sm-12' style='padding-left: 12px; padding-right: 10px; clear: both;'>
+                    <img src="/webassets/images/laliga/image_congrats<?php echo (Yii::app()->language == 'en') ? '_eng' : '';?>.png" style=" max-width: 100%; margin-bottom: 10px;"/>
+                </div>
+            <?php elseif (isset($_GET['f']) && $_GET['f'] == 'p'): ?>
+                <div style="background-color: #f7f9fa; min-height: 235px; width: 97.4%; margin: 20px auto; padding-top: 1px;margin-left: 12px; margin-right: 10px;">
+                    <h1 style="font-weight: 300; margin-bottom: 15px;"><?php echo Yii::t('youtoo', 'SUCCESS!!'); ?></h1>
+                    <h4 style="margin-bottom: 10px; line-height: 2;"><?php
+                        echo Yii::t('youtoo', "Your payment was processed successfully, and your funds have been<br/> deposited in your account.");
+                        ?>
+                    </h4>
+                    <?php echo Yii::t('youtoo', 'If you have any questions, please click'); ?> <a href="<?php echo $this->createUrl('/site/faq', array()); ?>" style="color: #ea8417;"><?php echo Yii::t('youtoo', 'FAQ'); ?></a> <?php echo Yii::t('youtoo', 'and'); ?> <a href="#" data-toggle='modal' data-target ='#modalRules' style="color: #ea8417;"><?php echo Yii::t('youtoo', 'Rules'); ?></a> <?php echo Yii::t('youtoo', 'to learn how to play.'); ?>
+                    <br/><br/> <?php echo Yii::t('youtoo', 'Good luck and have fun.'); ?>
+                </div>
+            <?php else: ?>
+                <div style="float: left; margin-left: 12px;">
+                    <span><img src="/webassets/images/laliga/image_refer-a-friend<?php echo (Yii::app()->language == 'en') ? '_eng' : '';?>.png" style="padding-right: 12px;max-width: 260px; width:100%;"/></span>
+                    <span><img src="/webassets/images/laliga/image_win-1000<?php echo (Yii::app()->language == 'en') ? '_eng' : '';?>.png" style="padding-right: 13px;max-width: 261px; width:100%;"/></span>
+                    <span><img src="/webassets/images/laliga/image_redeem-points<?php echo (Yii::app()->language == 'en') ? '_eng' : '';?>.png" style="max-width: 248px; width:100%;"/></span>
+                </div>
+                <div style="float: left; margin-left: 12px;margin-bottom: 20px; min-height: 116px; min-width:248px; background-color: #eeeeee;">
+                    <?php if (date('U') < strtotime($game->close_date)): ?>
+                        <div><?php echo '<a class="btn btn-default btn-md" style="font-weight: 700; font-size: 15px; min-width: 150px; min-height: 37px; margin-top: 10px;" href="' . $this->createUrl('/winlooseordraw/' . $game->id, array()) . '">' . Yii::t('youtoo', 'Get Started') . '</a>'; ?></div>
+                    <?php else: ?>
+                        <div><?php echo '<a class="btn btn-default btn-md disabled" style="font-weight: 700; font-size: 15px; min-width: 150px; min-height: 37px; margin-top: 10px;" href="' . $this->createUrl('/winlooseordraw/' . $game->id, array()) . '">' . Yii::t('youtoo', 'Get Started') . '</a>'; ?></div>
+                    <?php endif; ?>
+                    <div style="padding: 15px;"><?php echo Yii::t('youtoo', 'Win your VIP experience playing<br/> Fantasy Soccer'); ?></div>
+                </div>
+                <div style="float: left; margin-left: 16px;margin-bottom: 20px; min-height: 116px; min-width:248px; background-color: #eeeeee;">
+                    <?php if (date('U') < strtotime($game->close_date)): ?>
+                        <div><?php echo '<a class="btn btn-default btn-md" style="font-weight: 700; font-size: 15px; min-width: 150px; min-height: 37px; margin-top: 10px;" href="' . $this->createUrl('/winlooseordraw/' . $game->id, array()) . '">' . Yii::t('youtoo', 'Play Now') . '</a>'; ?></div>
+                    <?php else: ?>
+                        <div><?php echo '<a class="btn btn-default btn-md disabled" style="font-weight: 700; font-size: 15px; min-width: 150px; min-height: 37px; margin-top: 10px;" href="' . $this->createUrl('/winlooseordraw/' . $game->id, array()) . '">' . Yii::t('youtoo', 'Play Now') . '</a>'; ?></div>
+                    <?php endif; ?>
+                    <div style="padding: 15px;"><?php echo Yii::t('youtoo', 'Win your VIP experience playing<br/> Fantasy Soccer'); ?></div>
+                </div>
+                <div style="float: left; margin-left: 16px;margin-bottom: 20px; min-height: 116px; min-width:248px; background-color: #eeeeee;">
+                    <div><?php echo '<a class="btn btn-default btn-md" style="font-weight: 700; font-size: 15px; min-width: 150px; min-height: 37px; margin-top: 10px;" href="' . $this->createUrl('/redeem') . '">' . Yii::t('youtoo', 'Redeem') . '</a>'; ?></div>
+                    <div style="padding: 15px;"><?php echo Yii::t('youtoo', 'Win your VIP experience playing<br/> Fantasy Soccer'); ?></div>
+                </div>
+            <?php endif; ?>
+        <?php endif; ?>
+        <div class="col-xs-12 col-sm-12 col-lg-12" style="padding-left: 12px; padding-right: 10px; clear: both;">
+            <div class="table-responsive" style="height: 370px; overflow: auto;">
+                <table class="table">
+                    <col width="30%">
+                    <thead style="background-color: #cfcfcf; border-color: #cfcfcf;">
+                        <tr>
+                            <th style="text-align: left;"><?php echo Yii::t('youtoo', 'Game') ?></th>
+                            <th style="text-align: left;"><?php echo Yii::t('youtoo', 'Entries') ?></th>
+                            <th style="text-align: left;"><?php echo Yii::t('youtoo', 'Entry Fee') ?></th>
+                            <th style="text-align: left;"><?php echo Yii::t('youtoo', 'Prize') ?></th>
+                            <th style="text-align: left;"><?php echo Yii::t('youtoo', 'Live') ?></th>
+                            <th style="text-align: left; background-color: #eeeeee; border-left: 1px solid #cfcfcf;"><?php echo Yii::t('youtoo', 'Next event live in') ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $q = 1;
+                        foreach($games as $game) {
+                            $playButtonMessage = "";
+                            $playButtonURL = "";
+                            $playButtonStatus = "";
+                            $isShowGame = true;
+
+                            if(date('U') > strtotime($game->open_date) && date('U') < strtotime($game->close_date)) {
+                                if($game->reveal_id != NULL) {
+                                    $playButtonMessage = "Play Now";
+                                    $playButtonURL = '/game/reveal/'.$game->id;
+                                } else if(sizeof($game->gameChoiceAnswers) == 5) {
+                                    $playButtonMessage = "Play Now";
+                                    $playButtonURL = '/multiplechoice/'.$game->id;
+                                } else {
+                                    $playButtonMessage = "Play Now";
+                                    $playButtonURL = '/multiplechoice/'.$game->id;
+                                }
+                            } else if(date('U') < strtotime($game->open_date)) {
+                                $playButtonMessage = "Opening Soon";
+                                $playButtonURL = "#";
+                                $playButtonStatus = "disabled";
+                            } else {
+                                $playButtonMessage = "Game Closed";
+                                $playButtonURL = "#";
+                                $playButtonStatus = "disabled";
+                                $isShowGame = false;
+                            }
+
+                            if($geoLocation['isValid']) {
+
+                            }  else if($game->price > 0) {
+                                $playButtonMessage = "Not Eligible";
+                                $playButtonStatus = "disabled";
+                            }
+                            if($isShowGame) { ?>
+
+                            <tr class="<?php echo $q % 2 == 0 ? 'even' : 'odd'; ?>">
+                                <td class="alignLeft" style="vertical-align: middle; text-align: left; color: #ea8417; border-top: none;"><?php echo $game->description; ?></td>
+                                <td style="vertical-align: middle; border-top: none; border-right: 1px solid #cfcfcf;"><?php echo ($game->num_plays_free + $game->num_plays_paid); ?></td>
+                                <td style="vertical-align: middle;border-top: none; border-right: 1px solid #cfcfcf;"><?php echo '$' . $game->price; ?></td>
+                                <td style="vertical-align: middle;border-top: none; border-right: 1px solid #cfcfcf;"><?php echo $game->prize; ?></td>
+                                <td class="alignLeft" style="vertical-align: middle;border-top: none;"><?php echo date('m/d/y <\b\\r> H:i:s', strtotime($game->close_date)); ?></td>
+                                <td style='text-align: center;border-top: none;' >
+                                    <?php
+                                        echo '<a class="btn btn-default btn-md '.$playButtonStatus.'" style="font-weight: 700; font-size: 15px; min-width: 148px; min-height: 37px;" href="' . $this->createUrl($playButtonURL, array()) . '">' . Yii::t('youtoo', $playButtonMessage) . '</a>';
+                                        ?>
+                                </td>
+                                <?php ++$q; ?>
+                            </tr>
+                            <?php }
+                        }?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function showPopupWrap2(text) {
+        $("#popupWrap2 .flashMobileContents2").html(text);
+        $("#popupWrap2").css('display', 'table');
+    }
+</script>

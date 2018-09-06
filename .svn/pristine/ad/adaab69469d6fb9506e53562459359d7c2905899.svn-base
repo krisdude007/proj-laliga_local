@@ -1,0 +1,96 @@
+<?php $stripe = StripeUtility::config(); ?>
+
+<div id="pageContainer">
+    <div class="subContainer">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <?php if(!Yii::app()->user->isGuest): ?>
+                <li class="sidebar-brand" style="text-align: center; height: 40px; text-indent: 0px;"><a href="#" style="font-size: 17px; font-weight: 500;"><?php echo $user->first_name . ' ' . $user->last_name; ?></a></li><div style="text-align: center; color: #ffffff; font-size: 12px;">Cash Balance : <?php echo '<span style="color: #f9d83d;">$' .GameUtility::getCashBalance($user->id) . '</span>'; ?></div><div style="text-align: center; color: #ffffff; font-size: 12px;">Credits : <?php echo '<span style="color: #f9d83d;">' . $balance['credits_total'] . '</span>'; ?></div>
+                <li class="btn btn-default btn-sm startButton" style="text-indent: 0; line-height: normal; margin-top: 10px; font-size: 12px;"><?php echo Yii::t('youtoo', 'Add Funds'); ?></li><hr class='hr'/>
+                <?php else: ?>
+                <li class="sidebar-brand" style="text-indent: 30px; height: 55px;"><a href="#" style="font-size: 21px; font-weight: 500;">Join Now</a></li><li class="btn btn-default btn-sm startButton" style="text-indent: 0; line-height: normal;"><?php echo Yii::t('youtoo', 'Get Started'); ?></li><hr class='hr'/>
+                <?php endif; ?>
+                <li><a href="<?php echo $this->createUrl('/playnow', array()); ?>"><?php echo Yii::t('youtoo', 'Main'); ?></a></li>
+                <li class="active"><a href="<?php echo $this->createUrl('/site/redeem', array()); ?>"><?php echo Yii::t('youtoo', 'Store'); ?></a></li>
+                <li><a href="<?php echo $this->createUrl('/site/winners', array()); ?>"><?php echo Yii::t('youtoo', 'Winners'); ?></a></li>
+                <li><a href="#"><?php echo Yii::t('youtoo', 'Refer a Friend'); ?></a></li>
+                <li><a href="#"><?php echo Yii::t('youtoo', 'FAQ'); ?></a></li>
+                <li class="panel panel-default" id="dropdown">
+                    <a data-toggle="collapse" href="#dropdown-lvl1">
+                        <span></span> Account <span class="caret"></span>
+                    </a>
+                        <?php if (Yii::app()->controller->id == 'user' && Yii::app()->controller->action->id == 'credits'):  ?>
+                    <div id="dropdown-lvl1" class="panel-collapse in">
+                        <?php else: ?>
+                    <div id="dropdown-lvl1" class="panel-collapse collapse">
+                        <?php endif; ?>
+                        <div class="panel-body">
+                            <ul class="nav navbar-nav">
+                                <li <?php if ($this->activeSubNavLink == 'basicinfo'): ?>class='active'<?php endif; ?>><?php echo CHtml::link(Yii::t('youtoo', 'Basic Info'), array('/user/profile'), array()); ?></li>
+                                <li <?php if ($this->activeSubNavLink == 'password'): ?>class='active'<?php endif; ?>><?php echo CHtml::link(Yii::t('youtoo', 'Password'), array('/user/password'), array()); ?></li>
+                                <li <?php if ($this->activeSubNavLink == 'credits'): ?>class='active'<?php endif; ?>><?php echo CHtml::link(Yii::t('youtoo', 'Credits'), array('/user/credits'), array()); ?></li>
+                                <li <?php if ($this->activeSubNavLink == 'paymentinfo'): ?>class='active'<?php endif; ?>><?php echo CHtml::link(Yii::t('youtoo', 'Payment Method'), array('/actel/payment?play=0'), array()); ?></li>
+                                <li <?php if ($this->activeSubNavLink == 'connections'): ?>class='active'<?php endif; ?>><?php echo CHtml::link(Yii::t('youtoo', 'Connections'), array('/user/connections'), array()); ?></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                <li><a href="<?php echo $this->createUrl('/user/logout', array()); ?>"><?php echo Yii::t('youtoo', 'Log Out'); ?></a></li>
+            </ul>
+        </div>
+        <div class="row">
+<!--            <div class="col-xs-12">
+                <h3><?php //echo $prize->name;?></h3>
+                <div class="borderBottom">&nbsp;</div>
+            </div>-->
+        </div>
+        <div class="row">
+            <div class="col-xs-8 col-xs-offset-2">
+                <span class="col-md-12">
+                        <div class="thumbnail" style="max-width:none; max-height: none; border: 1px solid #474747; padding: 10px;">
+                        <img class="img-responsive" style="max-height: 150px; padding: 10px; border: 1px solid #f9d83d;" src="<?php echo '/' . basename(Yii::app()->params['paths']['image']) . "/{$prize->image}" ?>" alt="...">
+                        <div class="description"><?php echo $prize->description; ?></div>
+                        <div class="caption">
+                            <h3 style="max-width:none;"><?php echo Yii::t('youtoo',Yii::t('youtoo','Are you sure you want to redeem or purchase this item?'))?></h3>
+                            <p>
+                                <?php
+                                $form = $this->beginWidget('CActiveForm', array(
+                                    'id' => 'user-redeemPrize-form',
+                                    'enableAjaxValidation' => false,
+                                    'clientOptions' => array(
+                                        'validateOnSubmit' => false,
+                                        'validateOnChange' => false,
+                                        'validateOnType' => false,
+                                    )
+                                ));
+                                ?>
+                                <?php echo $form->hiddenField($prize,'id',array('value'=>$prize->id)) ?>
+                                <?php if ($balance['credits_total'] < $prize->credits_required): ?>
+                                <?php echo CHtml::link(Yii::t('youtoo', 'Pay using '. $prize->credits_required .' Credits'), array('#'), array('data-toggle' => 'modal', 'data-target' => '#modalRedeem', 'role' => 'button', 'class' => 'btn btn-default btn-lg active', 'style' => 'margin: 20px 10px;')); ?>
+                                <?php else: ?>
+                                <input class="btn btn-default btn-lg" style ='margin: 20px 10px;' role="button" type="submit" value="<?php echo Yii::t('youtoo','Pay using '. $prize->credits_required .' Credits') ?>">
+                                <?php endif; ?>
+                                <?php $this->endWidget(); ?>
+<!--                                <a href='/payviapaypal?id=<?php //echo $prize->id;?>' class="btn btn-default btn-lg active" role="button"><?php //echo Yii::t('youtoo','Pay via PayPal for $' . $prize->credits_required) ?></a>-->
+                                <span>
+                                    <form action="/processstripeproduct/<?php echo $prize->id; ?>" method="post">
+                                        <script src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button"
+                                                data-key="<?php echo $stripe['publishable_key']; ?>"
+                                                data-amount="<?php echo $prize->credits_required*100; ?>"
+                                                data-name="Baldini's"
+                                                data-description="<?php echo $prize->name; ?>"></script>
+                                    </form>
+                                </span>
+
+                                <a href='/redeem' class="btn btn-default btn-lg" style ='margin: 20px 10px;' role="button"><?php echo Yii::t('youtoo','Return to Store') ?></a>
+                            </p>
+                        </div>
+                        <div class='caption'><p><?php echo 'Your Current balance is: <b style="color: #df9721;">'.(($balance['credits_total']>1) ? $balance['credits_total'].'</b> <i>credits</i>.' :  $balance['credits_total'].'</b> <i>credit</i>.'); ?></p></div>
+                    </div>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<?php $this->renderPartial('/site/modalRedeem', array()); ?>
+

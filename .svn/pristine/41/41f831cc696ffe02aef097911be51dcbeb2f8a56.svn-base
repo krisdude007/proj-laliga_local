@@ -1,0 +1,134 @@
+<?php
+// page specific css
+Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl . '/core/webassets/css/jquery-ui-1.10.0.css');
+Yii::app()->clientScript->registerScriptFile('http://cdn.jquerytools.org/1.2.7/all/jquery.tools.min.js', CClientScript::POS_END);
+?>
+
+<div id="pageContainer" class="container">
+    <div class="subContainer" style="max-width: 700px;">
+        <?php
+        $form = $this->beginWidget('CActiveForm', array('id' => 'user-registernew-form',
+            'enableAjaxValidation' => true,
+            'enableClientValidation' => true,
+            'clientOptions' => array(
+                'validateOnSubmit' => true,
+                ),
+            'htmlOptions' => array(
+            ),));
+        ?>
+        <h1 style="font-weight: 300; font-size: 30px;"><?php echo Yii::t('youtoo', 'Create an Account'); ?></h1>
+        <br/>
+        <br/>
+        <div class="row">
+            <div class='form group col-sm-12'>
+                <div class='col-sm-6'>
+                    <?php echo $form->textField($user, 'first_name', array('placeholder' => Yii::t('youtoo','First Name'), 'class' => 'form-control')); ?>
+                    <?php echo $form->error($user, 'first_name'); ?>
+                </div>
+                <div class='col-sm-6'>
+                    <?php echo $form->textField($user, 'last_name', array('placeholder' => Yii::t('youtoo','Last Name'), 'class' => 'form-control')); ?>
+                    <?php echo $form->error($user, 'last_name'); ?>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class='form group col-sm-12'>
+                <div class='col-sm-6'>
+                    <?php echo $form->passwordField($user, 'password', array('placeholder' => Yii::t('youtoo','Password'), 'class' => 'form-control')); ?>
+                    <?php echo $form->error($user, 'password'); ?>
+                </div>
+                <div class='col-sm-6'>
+                    <?php echo $form->passwordField($user, 'confirm_password', array('placeholder' => Yii::t('youtoo','Confirm Password'), 'class' => 'form-control')); ?>
+                    <?php echo $form->error($user, 'confirm_password'); ?>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class='form group col-sm-12'>
+                <div class='col-sm-6'>
+                    <?php echo $form->textField($user, 'username', array('placeholder' => Yii::t('youtoo','Email'), 'class' => 'form-control')); ?>
+                    <?php echo $form->error($user, 'username'); ?>
+                </div>
+                <div class='col-sm-6'>
+                    <?php echo $form->dropDownList($userLocation, 'state', ClientUtility::getUSStates(), array('class' => 'form-control')); ?>
+                    <?php echo $form->error($userLocation, 'state'); ?>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <div class="row" style="margin-bottom: 10px;">
+            <div class='col-sm-12'>
+                <?php echo $form->checkbox($user, 'terms_accepted'); ?>
+                <span class='terms'>
+                    <?php echo Yii::t('youtoo','I agree to'); ?>
+                    <a rel="#termsOverlayTrigger" href="#" class="fab-link" data-toggle="modal" data-target="#term_modal" style="color: #ea8417;"><?php echo Yii::t('youtoo','Terms of Use'); ?></a> <?php echo Yii::t('youtoo','and the'); ?>
+                    <a rel="#termsOverlayTrigger" href="#" class="fab-link" data-toggle="modal" data-target="#privacy_modal" style="color: #ea8417;"><?php echo Yii::t('youtoo','Privacy Policy'); ?></a>
+                </span>
+                <?php echo $form->error($user, 'terms_accepted'); ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class='col-sm-12'>
+                <?php echo $form->checkbox($user, 'age_accepted', '', array('checked' => '', 'value' => 1)); ?>
+                <span class='over_18'>
+                    <?php echo Yii::t('youtoo','I confirm that I am atleast 21 years of age.'); ?>
+                </span>
+                <?php echo $form->error($user, 'age_accepted'); ?>
+            </div>
+            <div class="row">
+                <div id="states" class="col-sm-12" style="margin-top: 20px;">
+                    <span>&nbsp;&nbsp;&nbsp;Juego no está permitido en los siguientes estados:<br/>
+                    California, Arizona, Louisiana, <br/>Massachusetts, Georgia, Montana</span>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <br/>
+        <div class='row'>
+            <div class="col-sm-12">
+                <?php echo $form->hiddenField($user, 'source', array('value' => 'web')); ?>
+                <input id="screen_width" type="hidden" name="screen_width" value="" />
+                <input id="screen_height" type="hidden" name="screen_height" value="" />
+                <?php echo CHtml::submitButton(Yii::t('youtoo', 'Sign Up'), array('class' => 'btn btn-default', 'role' => 'button', 'style' => 'width: 40%')); ?>
+            </div>
+        </div>
+        <br/>
+        <br/>
+        <div class='row'>
+            <div class='col-sm-12' ><a  href="/login" style='color:#ea8417;'><?php echo Yii::t('youtoo','Already have an account?'); ?></a>
+            </div>
+        </div>
+        <br/>
+        <br/>
+        <?php $this->endWidget(); ?>
+        <div id='term_modal' class="modal fade register_modal ">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class='header'>
+                        <button type="button" class="close bold" data-dismiss="modal" aria-hidden="true">x</button>
+                    </div>
+                    <div class="modal-body scroll-pane">
+                        <div class=''>
+                            <?php //$this->renderPartial('/user/_terms'); ?>
+                        </div>
+                    </div>
+
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        <div id='privacy_modal' class="modal fade register_modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class='header'>
+                        <button type="button" class="close bold" data-dismiss="modal" aria-hidden="true">x</button>
+                    </div>
+                    <div class="modal-body scroll-pane">
+                        <?php //$this->renderPartial('/user/_privacy'); ?>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+</div>

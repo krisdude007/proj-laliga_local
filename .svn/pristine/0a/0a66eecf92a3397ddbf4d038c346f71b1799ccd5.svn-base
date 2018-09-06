@@ -1,0 +1,460 @@
+<?php
+
+class clientSiteController extends SiteController {
+
+    public $activeNavLink = 'index';
+    public $activeSubNavLink = '';
+
+    public function filters() {
+        return array(
+            'accessControl', // perform access control for CRUD operations
+        );
+    }
+
+    public function goToLogin() {
+        $this->redirect($this->createUrl('/user/login'));
+    }
+
+    public function accessRules() {
+        return array(
+            array('allow',
+                'actions' => array('redeemPrize', 'payviapaypal', 'printReceipt', 'barcode'),
+                'users' => array('@'),
+            ),
+            array('allow',
+                'actions' => array('index', 'home', 'winners', 'redeem', 'error', 'customerror', 'testserverload', 'confirmation', 'howtoplay', 'baldiniscontact', 'geocoordinates', 'ajaxGeoCoordinates', 'cannotplay', 'gameredirect', 'aboutlinks', 'about', 'legallinks', 'legal', 'helplinks', 'help', 'faq', 'privacy', 'marketingpage','payandplay','newpayandplay'),
+                'users' => array('*'),
+            ),
+            array('allow',
+                'actions' => array('login'),
+                'users' => array('?'),
+            ),
+            array('deny', // deny all users
+                'users' => array('*'),
+            //'deniedCallback' => array($this, 'goToLogin'),
+            ),
+        );
+    }
+
+    public function actionIndex($id = NULL) {
+        // see which view to render based on whether or not
+        // a game is currently available for play
+
+        /* game play */
+
+        if (eGameChoice::getNumberOfActiveGames() > 0) {
+
+            if ($id == NULL) {
+                $game = eGameChoice::model()->multiple()->isActive()->with('gameChoiceAnswers')->find();
+            } else {
+                $game = eGameChoice::model()->multiple()->with('gameChoiceAnswers')->findByPk((int) $id);
+            }
+            $games = eGameChoice::getAllActiveGames();
+
+            $response = new eGameChoiceResponse;
+            $user_id = Yii::app()->user->getId();
+            $user = clientUser::model()->findByPk($user_id);
+            $balance = eCreditBalance::getTotalUserBalance($user_id);
+
+            if (isset($_POST['ajax']) && $_POST['ajax'] === 'game-choice-form') {
+                echo CActiveForm::validate($response);
+                Yii::app()->end();
+            }
+
+            if (isset($_POST['eGameChoiceResponse'])) {
+                $response->attributes = $_POST['eGameChoiceResponse'];
+                Yii::app()->session['gamechoiceanswerId'] = $response->game_choice_answer_id;
+                Yii::app()->session['gamechoiceId'] = $response->game_choice_id;
+                Yii::app()->session['source'] = $response->source;
+
+                if (empty($response->game_choice_answer_id)) {
+                    Yii::app()->user->setFlash('error', 'Please choose an answer.');
+                    $this->redirect($this->createUrl('/site/index'));
+                } else {
+
+                    if (Yii::app()->user->isGuest && empty($response->user_id)) {
+                        $response->user_id = 0;
+                    } else {
+                        $response->user_id = $user->id;
+                    }
+                    if ($response->validate()) {
+                        $response->save();
+                        Yii::app()->session['gamechoiceresponseId'] = $response->id;
+                    }
+                    $this->redirect($this->createUrl('/actel/payment'));
+                }
+            }
+
+            if (isset($game)) {
+                $formPlayNow = new FormPlayNow();
+                $this->render('index', array(
+                    'games' => $games,
+                    'game' => $game,
+                    'response' => $response,
+                    'balance' => $balance,
+                    'user' => $user,
+                    'formPlayNow' => $formPlayNow,
+                ));
+
+                /* end game play */
+            } else {
+                Yii::app()->user->setFlash('error', "Errors found!");
+            }
+        } else {
+            $this->render('index2', array());
+        }
+    }
+
+    public function actionGeoCoordinates() {
+        $this->render('geocoordinates', array());
+    }
+
+    public function actionCannotPlay() {
+        $this->render('cannotplay', array());
+    }
+
+    public function actionAjaxGeoCoordinates() {
+
+        $decodedResultForLatLng = '';
+
+        $positionLat = isset($_POST['lat']) ? $_POST['lat'] : 0;
+        $positionLng = isset($_POST['lng']) ? $_POST['lng'] : 0;
+        //exit;
+        if (!($positionLat == 0) && !($positionLng == 0)) {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, "https://maps.googleapis.com/maps/api/geocode/json?latlng=" . $positionLat . "," . $positionLng . "&key=AIzaSyBqBZAwrI-zhDidCVDtriw1BHrQC9cuTZ4");
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+            $response = curl_exec($ch);
+            curl_close($ch);
+
+            $decodedResultForLatLng = json_decode($response);
+            $city = $decodedResultForLatLng->results[0]->address_components[3]->long_name;
+            $county = $decodedResultForLatLng->results[0]->address_components[4]->long_name;
+            $state = $decodedResultForLatLng->results[0]->address_components[5]->long_name;
+            $country = $decodedResultForLatLng->results[0]->address_components[6]->long_name;
+            if (isset(Yii::app()->params['GamePlay']['setGeoLocation']) && Yii::app()->params['GamePlay']['setGeoLocation'] == true) {
+                if ($country == Yii::app()->params['GamePlay']['Country']) {
+                    if (in_array($city, Yii::app()->params['GamePlay']['AllowedCity']) || in_array($state, Yii::app()->params['GamePlay']['AllowedState'])) {
+                        echo json_encode(array('success' => Yii::t('youtoo', 'You can play this game.')));
+                        //check if user already exists in system. so we dont save his info again.
+                        $validGeoUser = eGeoLocationInfo::model()->findbyAttributes(array('ip_address' => ClientUtility::getClientIpAddress()));
+                        if (!is_null($validGeoUser)) {
+
+                            if ($validGeoUser->is_validlocation == 0) {
+
+                                $geoLocationInfo = eGeoLocationInfo::model()->findByPk($validGeoUser->id);
+                                $geoLocationInfo->latitude = $positionLat;
+                                $geoLocationInfo->longitude = $positionLng;
+                                $geoLocationInfo->city = $city;
+                                $geoLocationInfo->is_validlocation = 1;
+                                $geoLocationInfo->state = $state;
+
+                                $geoLocationInfo->save();
+                            }
+                        } else {
+
+                            //enter new record
+                            $geoLocationInfo = new eGeoLocationInfo;
+                            $geoLocationInfo->latitude = $positionLat;
+                            $geoLocationInfo->longitude = $positionLng;
+                            $geoLocationInfo->city = $city;
+                            $geoLocationInfo->state = $state;
+                            $geoLocationInfo->is_validlocation = 1;
+                            $geoLocationInfo->ip_address = ClientUtility::getClientIpAddress();
+
+                            $geoLocationInfo->save();
+                        }
+                        Yii::app()->session['IsValidGeoCode'] = 1;
+                    } else {
+                        echo json_encode(array('error' => Yii::t('youtoo', 'Sorry, You cannot play this game.')));
+                        $invalidGeoUser = eGeoLocationInfo::model()->findbyAttributes(array('ip_address' => ClientUtility::getClientIpAddress()));
+
+                        if (!is_null($invalidGeoUser)) {
+                            if ($invalidGeoUser->ip_address == ClientUtility::getClientIpAddress()) {
+
+                                $geoLocationInfo = eGeoLocationInfo::model()->findByPk($invalidGeoUser->id);
+                                $geoLocationInfo->latitude = $positionLat;
+                                $geoLocationInfo->longitude = $positionLng;
+                                $geoLocationInfo->city = $city;
+                                $geoLocationInfo->is_validlocation = 0;
+                                $geoLocationInfo->state = $state;
+
+                                $geoLocationInfo->save();
+                            }
+                        } else {
+
+                            $geoLocationInfo = new eGeoLocationInfo;
+                            $geoLocationInfo->latitude = $positionLat;
+                            $geoLocationInfo->longitude = $positionLng;
+                            $geoLocationInfo->city = $city;
+                            $geoLocationInfo->state = $state;
+                            $geoLocationInfo->ip_address = ClientUtility::getClientIpAddress();
+
+                            $geoLocationInfo->save();
+                        }
+                    }
+                }
+            }
+        } else {
+            $geoLocationInfo = new eGeoLocationInfo;
+            $geoLocationInfo->latitude = 'Not Shared';
+            $geoLocationInfo->longitude = 'Not Shared';
+            $geoLocationInfo->city = 'unknown';
+            $geoLocationInfo->state = 'unknown';
+            $geoLocationInfo->ip_address = ClientUtility::getClientIpAddress();
+
+            $geoLocationInfo->save();
+        }
+    }
+
+    public function actionTestServerLoad() {
+
+        $count = 100;
+        for ($i = 1; $i <= $count; $i++) {
+            $url[$i] = "https://bousalah.youtoo.com/getsms?destination=" . mt_rand(1, 50) . "&smssender=" . substr(number_format(time() * mt_rand(), 0, '', ''), 0, 12) . "&idlang=1&opid=" . mt_rand(1, 90) . "&smstext=testing" . $i . "&smsid=" . uniqid();
+        }
+
+        for ($i = 1; $i <= $count; $i++) {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url[$i]);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $response = curl_exec($ch);
+            echo $i . PHP_EOL;
+        }
+        curl_close($ch);
+    }
+
+    public function actionWinners() {
+        $this->activeNavLink = 'winners';
+
+        $user_id = Yii::app()->user->getId();
+        $user = eUser::model()->findByPk($user_id);
+        $balance = eCreditBalance::getTotalUserBalance($user_id);
+
+        $winners = GameUtility::getWinners();
+        $this->render('winners', array('winners' => $winners, 'user' => $user, 'balance' => $balance));
+    }
+
+    public function actionCustomError() {
+        $this->render('customerror', array());
+    }
+
+    public function actionHowToPlay() {
+        $this->activeNavLink = 'howtoplay';
+
+        $this->render('howtoplay', array());
+    }
+
+    public function actionConfirmation() {
+
+        $creditId = Yii::app()->session['creditId'];
+        $this->render('confirmation', array('creditId' => $creditId));
+    }
+
+    public function actionBaldinisContact() {
+        $this->render('baldiniscontact', array());
+    }
+
+    public function actionBarcode($id = NULL) {
+        require_once('core/protected/vendor/barcodegen/class/BCGFontFile.php');
+        require_once('core/protected/vendor/barcodegen/class/BCGColor.php');
+        require_once('core/protected/vendor/barcodegen/class/BCGDrawing.php');
+
+        // Including the barcode technology
+        require_once('core/protected/vendor/barcodegen/class/BCGcode39.barcode.php');
+
+        // Loading Font
+        $font = new BCGFontFile('core/protected/vendor/barcodegen/font/Arial.ttf', 18);
+
+        // Don't forget to sanitize user inputs
+        $id = isset($id) ? $id : '1234567890';
+
+        // The arguments are R, G, B for color.
+        $color_black = new BCGColor(0, 0, 0);
+        $color_white = new BCGColor(255, 255, 255);
+
+        $drawException = null;
+        try {
+            $code = new BCGcode39();
+            $code->setScale(2); // Resolution
+            $code->setThickness(30); // Thickness
+            $code->setForegroundColor($color_black); // Color of bars
+            $code->setBackgroundColor($color_white); // Color of spaces
+            $code->setFont($font); // Font (or 0)
+            $code->parse($id); // Text
+        } catch (Exception $exception) {
+            $drawException = $exception;
+        }
+
+        /* Here is the list of the arguments
+          1 - Filename (empty : display on screen)
+          2 - Background color */
+        $drawing = new BCGDrawing('', $color_white);
+        if ($drawException) {
+            $drawing->drawException($drawException);
+        } else {
+            $drawing->setBarcode($code);
+            $drawing->draw();
+        }
+
+        // Header that says it is an image (remove it if you save the barcode to a file)
+        header('Content-Type: image/png');
+        header('Content-Disposition: inline; filename="barcode.png"');
+
+        // Draw (or save) the image into PNG format.
+        $drawing->finish(BCGDrawing::IMG_FORMAT_PNG);
+    }
+
+    public function actionPrintReceipt() {
+        $this->layout = NULL;
+
+        $creditTransaction = eCreditTransaction::model()->findByPk(Yii::app()->session['creditId']);
+        $prize = ePrize::model()->findByPk($creditTransaction->prize_id);
+        $user = eUser::model()->with('userLocations:primary')->findByPk($creditTransaction->user_id);
+
+        unset(Yii::app()->session['paypalTransactionID']);
+        unset(Yii::app()->session['creditId']);
+        unset(Yii::app()->session['transaction_id']);
+        unset(Yii::app()->session['prize_id']);
+
+        $this->render('printReceipt', array(
+            'creditTransaction' => $creditTransaction,
+            'user' => $user,
+            'prize' => $prize,
+        ));
+    }
+
+    public function actionPayViaPayPal($id = 0, $game_id = NULL) {
+
+        if (!empty($id))
+            $prize = ePrize::model()->findByPk($id);
+        $total = isset($prize->credits_required) ? $prize->credits_required : 1;
+
+        if ($game_id == NULL) {
+            $game = eGameChoice::model()->multiple()->isActive()->with('gameChoiceAnswers')->find();
+        } else {
+            $game = eGameChoice::model()->multiple()->with('gameChoiceAnswers')->findByPk((int) $game_id);
+        }
+
+        $paypal = PaymentUtility::paypal($prize);
+        if ($paypal['response'] == 'success') {
+            $this->redirect($paypal['url']);
+        } else {
+            var_dump($paypal);
+            //$this->redirect(Yii::app()->createURL('/thanks'));
+        }
+    }
+
+    public function actionRedeem() {
+        $this->activeNavLink = 'redeem';
+
+        $user_id = Yii::app()->user->getId();
+        $user = eUser::model()->findByPk($user_id);
+        $balance = eCreditBalance::getTotalUserBalance($user_id);
+
+        if (isset($_POST['ePrize'])) {
+            $this->redirect($this->createUrl('/redeem/' . $_POST['ePrize']['id']));
+        }
+        $prizes = ePrize::getActivePrizes();
+        $this->render('redeem', array('prizes' => $prizes, 'user' => $user, 'balance' => $balance));
+    }
+
+    public function actionRedeemPrize($id = 0) {//start transaction
+        //Yii::app()->user->setReturnUrl(Yii::app()->request->getUrl());
+        $this->activeNavLink = 'redeem';
+
+        $user_id = Yii::app()->user->getId();
+        $user = eUser::model()->findByPk($user_id);
+        $balance = eCreditBalance::getTotalUserBalance($user_id);
+
+        //$prizes = ePrize::getActivePrizes();
+        $random_prize = ePrize::getRandomActivePrizes();//var_dump($random_prize);exit;
+
+        if (!empty($id))
+            $prize = ePrize::model()->findByPk($id);
+        if (isset($_POST['ePrize'])) {
+            $userLocation = clientUserLocation::model()->findByAttributes(array('user_id' => $user->id, 'type' => 'primary'));
+            $userLocation = (is_null($userLocation)) ? new clientUserLocation : $userLocation;
+            //$user->setScenario('shipping');
+//            $userValidate = $user->validate();
+//            $userLocation->setScenario('shipping');
+//            $userLocationValidate = $userLocation->validate();
+//            if (!($userValidate && $userLocationValidate)) {
+//                Yii::app()->user->setFlash('error', Yii::t('youtoo', 'Update profile for shipping'));
+//                Yii::app()->session['userInfoValidate'] = 'Update profile for shipping';
+//                $this->redirect($this->createUrl('user/profile'));
+//            }
+            $prize = ePrize::model()->findByPk($_POST['ePrize']['id']);
+            $creditRequired = $prize->credits_required;
+
+            if ($prize->type == 'video') {
+                Yii::app()->session['type'] = "spent";
+                Yii::app()->session['prize_id'] = $prize->id;
+                Yii::app()->session['credits'] = $creditRequired;
+                Yii::app()->session['question_id'] = $prize->question_id;
+                $this->redirect($this->createUrl('/video/record'));
+            } else if ($prize->type == 'ticker') {
+                Yii::app()->session['type'] = "spent";
+                Yii::app()->session['prize_id'] = $prize->id;
+                Yii::app()->session['credits'] = $creditRequired;
+                Yii::app()->session['question_id'] = $prize->question_id;
+                $this->redirect($this->createUrl('/ticker'));
+            } else {
+                $transaction = new eCreditTransaction;
+                $transaction->type = "spent";
+                $transaction->prize_id = $prize->id;
+                $transaction->credits = $creditRequired;
+                $transaction->save();
+
+                $prize->quantity = $prize->quantity - 1;
+                $prize->save();
+            }
+            Yii::app()->session['creditId'] = $transaction->id;
+            $this->redirect($this->createUrl('/confirmation'));
+        }
+        $this->render('redeemPrize', array('prize' => $prize, 'user' => $user, 'balance' => $balance, 'randomprizes' => $random_prize));
+    }
+
+    public function actionFAQ() {
+         $this->activeNavLink = 'faq';
+
+        $user_id = Yii::app()->user->getId();
+        $user = eUser::model()->findByPk($user_id);
+        $balance = eCreditBalance::getTotalUserBalance($user_id);
+
+        $this->render('faq', array('user' => $user, 'balance' => $balance));
+    }
+
+    public function actionLegallinks() {
+        //if ($this->isMobile()) {
+        //    Yii::app()->theme = 'mobile';
+        //    $this->layout = null;
+        //}
+        $this->render('legallinks', array());
+    }
+
+     public function actionMarketingPage() {
+
+        $this->render('marketingpage', array());
+    }
+
+    public function actionPayAndPlay() {
+
+        $this->render('payandplay', array());
+    }
+
+    public function actionNewPayAndPlay() {
+
+        $this->render('newpayandplay', array());
+    }
+
+    public function actionHelplinks() {
+        //if ($this->isMobile()) {
+        //    Yii::app()->theme = 'mobile';
+        //    $this->layout = null;
+        //}
+        $this->render('helplinks', array());
+    }
+
+}

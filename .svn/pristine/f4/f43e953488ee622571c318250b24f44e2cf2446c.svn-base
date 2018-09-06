@@ -1,0 +1,76 @@
+<?php
+$cs = Yii::app()->getClientScript();
+
+$stripe = StripeUtility::config();
+?>
+
+
+<!-- The required Stripe lib -->
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+
+<script type="text/javascript">
+    // This identifies your website in the createToken call below
+    Stripe.setPublishableKey('<?php echo $stripe['publishable_key']; ?>');
+
+    $(document).ready(function() {
+        var username = getCookie('username');
+        if (username)
+            document.getElementById('clientUser_username').value = username;
+        var type = "<?php //echo $type; ?>";
+        var cashIndex = <?php echo $cashIndex; ?>;
+
+        if(parseInt(cashIndex) > 0) {
+            $("#entry"+cashIndex).addClass('selected');
+            $("#entry"+cashIndex).text('Seleccionado');
+        }
+    });
+
+    var stripeResponseHandler = function(status, response) {
+        var $form = $('#payment-form');
+
+        if (response.error) {
+            // Show the errors on the form
+            $form.find('.payment-errors').text(response.error.message);
+            $('#paymentloging-form').find('button').prop('disabled', false);
+        } else {
+            // token contains id, last4, and card type
+            var token = response.id;
+            // Insert the token into the form so it gets submitted to the server
+            // and re-submit
+
+            $('#user-login-register-pay-form').append($('<input type="hidden" name="stripeToken" />').val(token));
+            $('#user-login-register-pay-form').append($('<input type="hidden" name="amount" />').val());
+            $('#user-login-register-pay-form').submit();
+        }
+    };
+
+    jQuery(function($) {
+
+        $('#paymentloging-form').submit(function(e) {
+            var $form = $('#payment-form');
+
+            // Disable the submit button to prevent repeated clicks
+            //$form.find('button').prop('disabled', true);
+            $('#paymentloging-form').find('button').prop('disabled', true);
+            setTimeout(function() {
+                $('#paymentloging-form').find('button').removeAttr('disabled');
+            }, 3000)
+
+            Stripe.card.createToken($form, stripeResponseHandler);
+
+            // Prevent the form from submitting with the default action
+            return false;
+        });
+    });
+    function yesNoClick(me) {
+        setCookie('username', document.getElementById('clientUser_username').value);
+        if (me.value === '1') {
+            window.location.href = '<?php echo Yii::app()->createUrl('/user/loginpay') ?>';
+        }
+        else {
+            window.location.href = '<?php echo Yii::app()->createUrl('/user/registerpay') ?>';
+        }
+    }
+</script>
+
+<?php echo 'Payment Page'; ?>

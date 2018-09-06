@@ -1,0 +1,6 @@
+<div class="link">
+    <div onclick="window.location='mailto:support@youtootech.com'"><a href="mailto:support@youtootech.com"><?php echo Yii::t('youtoo','Support'); ?></a></div>
+    <hr></hr>
+    <div onclick="window.location='<?php echo Yii::app()->createUrl('site/FAQ'); ?>'"><a href="<?php echo Yii::app()->createUrl('site/FAQ'); ?>"><?php echo Yii::t('youtoo','FAQ'); ?></a></div>
+    <hr></hr>
+</div>

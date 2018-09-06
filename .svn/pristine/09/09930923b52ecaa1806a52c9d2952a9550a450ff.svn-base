@@ -1,0 +1,121 @@
+
+<?php
+$cs = Yii::app()->clientScript;
+$cs->registerCoreScript('jquery', CClientScript::POS_END);
+$stripe = StripeUtility::config();
+?>
+
+<style type="text/css">
+    .message {
+        margin: 150px 0px 150px 0px;
+        font-size: 25px;
+        text-align: center;
+        color: #5C5E5B;
+    }
+
+    .game {
+        margin: 10px 0px 20px 0px;
+        direction: ltr;
+        text-align: center;
+    }
+
+    .game .question {
+        margin: 0px 0px 5px 0px;
+        font-size: 38px;
+        text-align: center;
+        font-weight: bold;
+        color: #df9721;
+    }
+
+    .game .description {
+        font-size: 16px;
+        font-weight: 200;
+        line-height: 1.4;
+        margin-bottom: 5px;
+    }
+
+    .game .options {
+        color: #ffffff;
+        font-size: 20px;
+        display:inline-block;
+        margin: 10px auto;
+        text-align: left;
+    }
+
+    .game .submit_button {
+        margin: 5px 0px 0px 0px;
+        text-align: center;
+    }
+
+    #countdown {
+        color: #8F090A;
+        font-size: 25px;
+        font-weight: bold;
+    }
+</style>
+
+
+
+
+
+<?php
+    $anum = 0;
+
+    foreach($game->gameChoiceAnswers as $answer) {
+        if(in_array($answer->label, array('A','B','C','D'))) {
+            $anum++;
+        }
+    }
+?>
+
+<div id="pageContainer" class="container">
+    <div class="form">
+        <div class="game" class="fab-left fab-voting-left">
+            <?php
+            $form = $this->beginWidget('CActiveForm', array(
+                'id' => 'game-choice-form',
+                'enableAjaxValidation' => true,
+                'enableClientValidation' => true,
+                'clientOptions' => array(
+                        'validateOnSubmit' => true,
+                    )
+            ));
+
+            echo '<div class="question">' . $game->question . '</div>';
+            //echo '<div class="description">' . $game->description . '</div>';
+            echo '<div class="description">Answer the question and play now for $1 for your chance to win $3,500 this week!</div>';
+
+            $answerArray = Array();
+            $answerAutoArray = Array();
+            $i = 0;
+            foreach ($game->gameChoiceAnswers as $answer) {
+                if($i < sizeof($game->gameChoiceAnswers)-1) {
+                    $answerArray[$answer->id] = $answer->answer;
+                }
+                $i++;
+            }
+
+            echo '<div class="options">'.$form->radioButtonList($response, 'game_choice_answer_id', $answerArray).'</div>';
+
+            echo $form->error($response, 'game_choice_answer_id');
+
+            echo $form->hiddenField($response, 'game_choice_id', array('value' => $game->id));
+
+            if (Utility::isMobile()) {
+                $source = 'mobile';
+            } else {
+                $source = 'web';
+            }
+
+            echo $form->hiddenField($response, 'source', array('value' => $source));
+            ?>
+            <div class="submit_button" style="clear:both">
+                <?php echo CHtml::submitButton(Yii::t('youtoo', 'Submit Answer'), array('class' => 'btn btn-default btn-lg', 'id' => 'gamebutton')); ?>
+            </div>
+
+            <div style="margin: 20px 0px 0px 0px;">For each dollar you pay, you receive $1 in credits for food, beer, merchandise or free play at Laligas!  At a minimum, you get 2 beers or a burger basket for each entry!</div>
+        </div>
+
+        <?php $this->endWidget(); ?>
+    </div>
+</div>

@@ -1,0 +1,165 @@
+<?php
+/* @var $this Controller */
+$cs = Yii::app()->getClientScript();
+$cs->registerCoreScript('jquery');
+Yii::app()->facebook->initJs($output);
+?>
+<!DOCTYPE html>
+<html lang='<?php echo Yii::app()->language ?>'>
+    <head>
+        <meta charset="utf-8"/>
+        <title><?php echo CHtml::encode($this->pageTitle); ?></title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+        <meta content="" name="description"/>
+        <meta content="" name="author"/>
+        <meta name="blitz" content="mu-551e693b-63f1ac84-c7a038fa-fe9b389b">
+        <link rel="icon"  type="image/png"  href="/webassets/images/logo.png" />
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+        <link rel="stylesheet" type="text/css" href="/webassets/css/client.css" />
+        <link  rel="stylesheet" type="text/css" href="/webassets/css/simple-sidebar.css"/>
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <script>
+            (function(i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function() {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                        m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+            ga('create', 'UA-62693539-1', 'auto');
+            ga('send', 'pageview');
+
+        </script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
+    </head>
+    <?php echo (isset(Yii::app()->controller->action->id) && Yii::app()->controller->action->id == 'marketingpage') ? '<body style="background-color: #2D2926;">' : '<body>'; ?>
+    <div class="main">
+        <div id="popupWrap">
+            <div style="display: table-cell;padding-top: 200px;">
+                <div class="flashMobile">
+                    <div class="flashMobileContents">
+                    </div>
+                    <p id="fabmob_login-divider" style="border-bottom:grey solid 1px;"></p>
+                    <div class="flashMobileButton">
+                        <div class='okButton' onclick="$('#popupWrap').toggle();"><?php echo Yii::t('youtoo', 'Ok') ?></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="pageHeader">
+            <div class="row">
+                <div class="col-xs-12" style="overflow:hidden;">
+                    <span class="pull-left pageHeaderContent" style="margin: 10px 20px 0px 20px;">
+                    </span>
+                </div>
+            </div>
+        </div>
+        <?php echo (Yii::app()->controller->action->id == 'marketingpage') ? '<div id="pageNavigation" class="navbar navbar-inverse" role="navigation" style="width: 649px;">' : '<div id="pageNavigation" class="navbar navbar-inverse" role="navigation">'; ?>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-left">
+                <li class="logo"><a href="http://us.azteca.com/"><img src="/webassets/images/laliga/logo_Azteca.png" style="height: 43px; position: relative; top: -12px; margin-right: 100px;"/></a></li>
+                <li><a href="http://us.azteca.com/"><?php echo Yii::t('youtoo', 'SHOWS') ?></a></li>
+                <li><a href="http://us.azteca.com/mas"><?php echo Yii::t('youtoo', 'MÁS') ?></a></li>
+                <li><a href="http://us.azteca.com/"><?php echo Yii::t('youtoo', 'VIDEOS') ?></a></li>
+                <?php if (Yii::app()->user->isGuest): ?>
+                    <li><a href="<?php echo $this->createUrl('/user/login', array()); ?>"><?php echo Yii::t('youtoo', 'HORARIOS') ?></a></li>
+                <?php else: ?>
+                    <li><a href="http://us.azteca.com/programacion/index"><?php echo Yii::t('youtoo', 'HORARIOS') ?></a></li>
+                <?php endif; ?>
+            </ul>
+        </div>
+    </div>
+    <?php echo (Yii::app()->controller->id == 'site') ? '<div id="wrapper">' : ''; ?>
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <?php echo $content; ?>
+            </div>
+        </div>
+    <?php echo (Yii::app()->controller->id == 'site') ? '</div>' : ''; ?>
+    <div id="pageFooterDrop">
+        <div  class="row col-sm-12 col-sm-offset-3">
+            <div class="col-sm-2" id="aboutDrop">
+                <div class="dropHead">ABOUT</div>
+                <div><a href="#">Azteca</a></div>
+                <div><a href="#">Sweepstakes</a></div>
+                <div><a href="#">Games</a></div>
+                <div><a href="#">Press and Media</a></div>
+            </div>
+            <div class="col-sm-2" id="helpDrop">
+                <div class="dropHead">HELP</div>
+                <div><a href="#">Support</a></div>
+                <div><a href="#">How it works</a></div>
+                <div><a href="#">Rules & Scoring</a></div>
+                <div><a href="#">FAQ</a></div>
+            </div>
+            <div class="col-sm-3" id="legalDrop">
+                <div class="dropHead">LEGAL</div>
+                <div><a href="#">Rules</a></div>
+                <div><a href="#">Sweepstakes Regs</a></div>
+                <div><a href="#">Terms</a></div>
+                <div><a href="#">Privacy policy</a></div>
+            </div>
+        </div>
+    </div>
+    <div id="sponsorLogo">
+        <img src="/webassets/images/laliga/footer_paypal.png" style="margin-right: 17px;"/>
+        <img src="/webassets/images/laliga/footer_visa.png" style="margin-right: 17px;"/>
+        <img src="/webassets/images/laliga/footer_mastercard.png" style="margin-right: 17px;"/>
+        <img src="/webassets/images/laliga/footer_discover.png" style="margin-right: 25px;"/>
+        <img src="/webassets/images/laliga/footer_twitter.png" style="margin-right: 5px;"/>
+        <img src="/webassets/images/laliga/footer_instagram.png" style="margin-right: 5px;"/>
+        <img src="/webassets/images/laliga/footer_facebook.png" style="margin-right: 5px;"/>
+    </div>
+    <div id="pageHeader"></div>
+    <?php echo Yii::app()->controller->action->id == 'marketingpage' ? '<div id="pageFooter" style="color: #707070; width: 648px; padding: 2px 12px; height: 30px; display: none;">' : '<div id="pageFooter" style="color: #707070;">'; ?>
+<!--    <?php //echo CHtml::link(Yii::t('youtoo', 'Terms of Use'), array('#'), array('data-toggle' => 'modal', 'data-target' => '#modalTerms'));   ?> &amp;-->
+<!--    <?php //echo CHtml::link(Yii::t('youtoo', 'Privacy Policy'), array('#'), array('data-toggle' => 'modal', 'data-target' => '#modalPrivacy'));   ?> &nbsp;|&nbsp;-->
+<!--    <?php //echo CHtml::link(Yii::t('youtoo', 'Rules'), array('#'), array('data-toggle' => 'modal', 'data-target' => '#modalRules'));   ?> &nbsp;|&nbsp;-->
+<!--    <?php //echo CHtml::link(Yii::t('youtoo', 'FAQ'), array('#'), array('data-toggle' => 'modal', 'data-target' => '#modalFaq'));   ?> &nbsp;|&nbsp;-->
+    Copyright <?php echo date('Y'); ?> <a href="http://www.youtootech.com/patents" target="_blank"><?php echo Yii::t('youtoo', 'Youtootech.com/patents') ?></a>
+    <?php if (Yii::app()->controller->action->id == 'marketingpage'): ?>
+    <?php else: ?>
+        &nbsp;|&nbsp;<a href="<?php echo $this->createUrl('/site/baldiniscontact'); ?>" target="_blank"><?php echo Yii::t('youtoo', "Free method of play") ?></a>
+    <?php endif; ?>
+</div>
+
+<?php $this->renderPartial('/site/modalTerms', array()); ?>
+<?php $this->renderPartial('/site/modalPrivacy', array()); ?>
+<?php $this->renderPartial('/site/modalRules', array()); ?>
+<?php $this->renderPartial('/site/modalFaq', array()); ?>
+<?php $this->renderPartial('/site/modalMessage', array()); ?>
+
+<?php $this->renderPartial('/csrf/_csrfToken'); ?>
+<script type="text/javascript" src="/webassets/js/client.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+<script>
+            window.onload = function() {
+                if ($('#modalMessage .modal-body').html().trim())
+                    $('#modalMessage').modal('show');
+
+                $("#menu-toggle").click(function(e) {
+                    e.preventDefault();
+                    $("#wrapper").toggleClass("toggled");
+                });
+            }
+</script>
+</div>
+</body>
+</html>

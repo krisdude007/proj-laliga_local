@@ -1,0 +1,91 @@
+<div id="pageContainer">
+    <div class="subContainer" style="padding:0px;">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <?php if(!Yii::app()->user->isGuest): ?>
+                <li class="sidebar-brand" style="text-align: center; height: 40px;"><a href="#" style="font-size: 17px; font-weight: 500;"><?php echo $user->first_name.' '.$user->last_name; ?></a></li><div style="text-align: center; color: #ffffff; font-size: 12px;">Cash Balance : <?php echo '<i style="color: #f9d83d;">$'.rand(1,100).'</i>'; ?></div><div style="text-align: center; color: #ffffff; font-size: 12px;">Credits : <?php echo '<i style="color: #f9d83d;">'.$balance['credits_total'].'</i>'; ?></div>
+                <li class="btn btn-default btn-sm startButton" style="text-indent: 0; line-height: normal; margin-top: 10px; font-size: 12px;"><?php echo Yii::t('youtoo', 'Add Funds'); ?></li><hr class='hr'/>
+                <?php else: ?>
+                <li class="sidebar-brand" style="text-indent: 30px; height: 55px;"><a href="#" style="font-size: 21px; font-weight: 500;">Join Now</a></li><li class="btn btn-default btn-sm startButton" style="text-indent: 0; line-height: normal;"><?php echo Yii::t('youtoo', 'Get Started'); ?></li><hr class='hr'/>
+                <?php endif; ?>
+                <li><a href="<?php echo $this->createUrl('/playnow', array()); ?>"><?php echo Yii::t('youtoo', 'Main'); ?></a></li>
+                <li class="active"><a href="<?php echo $this->createUrl('/site/redeem', array()); ?>"><?php echo Yii::t('youtoo', 'Store'); ?></a></li>
+                <li><a href="<?php echo $this->createUrl('/site/winners', array()); ?>"><?php echo Yii::t('youtoo', 'Winners'); ?></a></li>
+                <li><a href="#"><?php echo Yii::t('youtoo', 'Refer a Friend'); ?></a></li>
+                <li><a href="#"><?php echo Yii::t('youtoo', 'FAQ'); ?></a></li>
+                <li class="panel panel-default" id="dropdown">
+                    <a data-toggle="collapse" href="#dropdown-lvl1">
+                        <span></span> Account <span class="caret"></span>
+                    </a>
+                        <?php if (Yii::app()->controller->id == 'user' && Yii::app()->controller->action->id == 'credits'):  ?>
+                    <div id="dropdown-lvl1" class="panel-collapse in">
+                        <?php else: ?>
+                    <div id="dropdown-lvl1" class="panel-collapse collapse">
+                        <?php endif; ?>
+                        <div class="panel-body">
+                            <ul class="nav navbar-nav">
+                                <li <?php if ($this->activeSubNavLink == 'basicinfo'): ?>class='active'<?php endif; ?>><?php echo CHtml::link(Yii::t('youtoo', 'Basic Info'), array('/user/profile'), array()); ?></li>
+                                <li <?php if ($this->activeSubNavLink == 'password'): ?>class='active'<?php endif; ?>><?php echo CHtml::link(Yii::t('youtoo', 'Password'), array('/user/password'), array()); ?></li>
+                                <li <?php if ($this->activeSubNavLink == 'credits'): ?>class='active'<?php endif; ?>><?php echo CHtml::link(Yii::t('youtoo', 'Credits'), array('/user/credits'), array()); ?></li>
+                                <li <?php if ($this->activeSubNavLink == 'paymentinfo'): ?>class='active'<?php endif; ?>><?php echo CHtml::link(Yii::t('youtoo', 'Payment Method'), array('/actel/payment?play=0'), array()); ?></li>
+                                <li <?php if ($this->activeSubNavLink == 'connections'): ?>class='active'<?php endif; ?>><?php echo CHtml::link(Yii::t('youtoo', 'Connections'), array('/user/connections'), array()); ?></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                <li><a href="<?php echo $this->createUrl('/user/logout', array()); ?>"><?php echo Yii::t('youtoo', 'Log Out'); ?></a></li>
+            </ul>
+        </div>
+        <div class="row" style="margin-right: 0px; margin-left: 0px; m">
+            <div class="col-sm-12 col-xs-12">
+                <h3><?php echo Yii::t('youtoo', 'Spend the points you have earned for great prizes.') ?></h3>
+                <div class="borderBottom"><?php echo Yii::t('youtoo','As a reminder, one point is given to you for every one dollar spent. Have fun shopping.');?></div>
+            </div>
+        </div>
+        <div class="row" style="margin-right: 0px; margin-left: 0px; overflow: scroll; max-height: 600px;">
+            <div class="col-sm-12">
+
+                <?php
+                $prizeFormat = '
+                    <span class="col-md-4">
+                        <div class="thumbnail">
+                            <div style="border: 1px solid #474747;padding: 10px;">
+                            <img class="img-responsive" style="max-height: none;" src="%s" alt="...">
+                            </div>
+                            <div class="caption">
+                                <div style="min-height: 55px; margin-top: 10px;">
+                                    <div style="font-size: 14px;">%s</div>
+                                    <div style="font-size: 14px;">%s</div>
+                                </div>
+                                %s
+                                <p>
+                                    <input class="btn btn-default btn-lg" style="font-size: 15px; min-width: 125px; font-weight: 100;" role="button" type="submit" value="%s">
+                                </p>
+                            </div>
+                        </div>
+                     </span>
+                ';
+                if (sizeof($prizes) > 0) {
+                    foreach ($prizes as $prize) {
+                        $form = $this->beginWidget('CActiveForm', array(
+                            'id' => 'user-redeem-form',
+                            'enableAjaxValidation' => false,
+                            'clientOptions' => array(
+                                'validateOnSubmit' => false,
+                                'validateOnChange' => false,
+                                'validateOnType' => false,
+                            )
+                        ));
+                        if ($prize->quantity > 0) {
+                            echo sprintf(
+                                    $prizeFormat, '/' . basename(Yii::app()->params['paths']['image']) . "/{$prize->image}", $prize->name, ($prize->credits_required == 1) ? (Yii::t('youtoo', '{value} Credit', array('{value}' => $prize->credits_required))) : (Yii::t('youtoo', '{value} Credits', array('{value}' => $prize->credits_required))),$form->hiddenField($prize, 'id', array('value' => $prize->id)), 'Buy'
+                            );
+                            $this->endWidget();
+                        }
+                    }
+                }
+                ?>
+            </div>
+        </div>
+    </div>
+</div>

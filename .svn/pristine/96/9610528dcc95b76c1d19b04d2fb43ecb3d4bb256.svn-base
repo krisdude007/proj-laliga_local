@@ -1,0 +1,87 @@
+<?php
+    $stripe = StripeUtility::config();
+?>
+
+<div id="pageContainer" class="container">
+    <div class="subContainer">
+        <div class="row">
+            <div class="col-xs-8 col-xs-offset-2">
+                <h1>
+                <?php
+                if($isCorrect){
+                    //echo Yii::t('youtoo','Correct Answer.');
+                }
+                else { 
+                    //echo Yii::t('youtoo','Sorry, Wrong Answer.');
+                }
+                ?>
+                </h1>
+                <p>
+                    <?php echo Yii::t('youtoo',"Congratulations! You have earned 1 sweepstakes entry and 1 credit.");?>
+                </p> 
+                <p>
+                    <?php echo Yii::t('youtoo',"Would you like to keep playing?  Get ".Yii::app()->session['game_num_in_set']." more chances to be entered to win $3,500 for $1.");?>
+                </p>
+                <br/>
+                <?php
+                if($next_game_id == 0) {
+                    echo Yii::t('youtoo',"No more games available for today, please comeback tomorrow for more games.");
+                } else {
+                ?>
+                <div>
+                    <div style="margin: 20px 0px 20px 0px;">
+                        <form action="/processstripe/game_choice/<?php echo $next_game_id; ?>" method="post">
+                            <script src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button"
+                                    data-key="<?php echo $stripe['publishable_key']; ?>"
+                                    data-amount="100"
+                                    data-name="Baldini's"
+                                    data-description="At Home Sweepstakes"></script>
+                        </form>
+                    </div>
+<!--                    <div><a style="font-size: 14pt;text-decoration: underline;" href="<?php //echo Yii::app()->createURL("/expressCheckOut/{$model->tableName()}/{$model->id}"); ?>"><img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/checkout-logo-large.png" alt="PayPal" /></a></div>-->
+                </div>
+                <?php } ?>
+                <p>
+<!--                    <a href="<?php //echo $this->createUrl('/playnow', array()); ?>" class="btn btn-default btn-lg active" role="button"><?php //echo Yii::t('youtoo','Play Again')?></a>-->
+                </p>
+                <br/>
+                <p>
+                <?php echo Yii::t('youtoo',"Remember, each dollar you spend earns you credits to exchange for beer, food, merchandise and free play at Baldinis.  At a minimum, you receive 2 beers or a burger basket for playing.");?>
+                </p>
+                <br/>
+                <p>
+                    <table style="width: 100%;border: 1px solid #cdcdcd;text-align: left;">
+                        <tr>
+                        <td style='width:50%;background-color: #dedede;padding: 12px; color: #171717;'>
+                            <h4 style="text-align: left;"><?php echo Yii::t('youtoo','Thank You.')?></h4>
+                            <p>
+                            <h5><?php echo Yii::t('youtoo',"Order Number: {$order_num}")?></h5>
+                            <h5><?php echo Yii::t('youtoo','Date:')?> <?php echo(date('M j, Y h:i A T', strtotime($order_date))) ?></h5>
+                            <h5><?php echo Yii::t('youtoo',"Payment Method: {$payment_method} via {$payment_from}")?></h5>
+                            </p>
+                        </td>
+                        <td style='width:50%;background-color: #ffffff;padding: 12px; color: #171717;'>
+                            <div style='overflow:hidden;'>
+                                <h4 style='display: inline;'><?php echo Yii::t('youtoo','Earned')?>:</h4> <h5 style='display: inline;'>1 Credit</h5>
+                            </div>
+                            <br/>
+                            <hr style='margin: 2px 0px;'>
+                            <div style='overflow:hidden;'>
+                                <h4 style='float:left; width: 65%; text-decoration: underline;'><?php echo Yii::t('youtoo','Item')?></h4><h4 style='float:left; text-decoration: underline;'><?php echo Yii::t('youtoo','Price')?></h4>
+                            </div>
+                            <hr style='margin: 2px 0px;'>
+                            <div style='overflow:hidden;'>
+                                <h4 style='float:left;width: 65%;'><?php echo Yii::t('youtoo','Sweepstakes Fee:')?></h4><h4 style='float:left;'> $<?php echo $price; ?></h4>
+                            </div>
+                            <hr style='margin: 2px 0px;'>
+                            <div style='overflow:hidden;'>
+                                <h4 style='float:left;width: 65%;'><?php echo Yii::t('youtoo','Total:')?></h4><h4 style='float:left;'> $<?php echo $price; ?></h4>
+                            </div>
+                        </td>
+                        </tr>
+                    </table>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

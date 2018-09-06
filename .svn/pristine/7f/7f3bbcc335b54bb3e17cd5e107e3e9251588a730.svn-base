@@ -1,0 +1,29 @@
+<?php
+
+class ClientUserUtility {
+
+    public static function register($user){
+        if($user->validate()) {
+            $user->save();
+            $audit = new eAudit;
+            $audit->user_id = $user->id;
+            $audit->action = 'created an account via '.$user->source;
+            $audit->save();
+            return true;
+        }
+        return false;
+    }
+
+    public static function getPhotoId($user) {
+        if ($user) {
+            if ($image = eImage::model()->accepted()->recent()->isPhotoId()->findByAttributes(array('user_id' => $user->id))) {
+                return '/' . basename(Yii::app()->params['paths']['image']) . "/{$image->filename}";
+            } else {
+                return '/webassets/images/profile-photoId.png';
+                }
+            }
+        return '/webassets/images/profile-photoId.png';
+    }
+
+}
+?>

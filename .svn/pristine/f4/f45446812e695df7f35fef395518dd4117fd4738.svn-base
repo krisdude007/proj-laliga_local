@@ -1,0 +1,72 @@
+<?php
+$cs = Yii::app()->getClientScript();
+$cs->registerScriptFile('/webassets/js/jquery.oauthpopup.js', CClientScript::POS_END);
+?>
+<div class="fabmob_content-container text-center">
+    <?php
+    $form = $this->beginWidget('CActiveForm', array(
+        'id' => 'user-registernew-form',
+        'enableAjaxValidation' => true,
+        'htmlOptions' => array(
+            'class' => 'form-horizontal fabmob_condensed-form',
+        ),
+    ));
+    ?>
+    <h3 class="text-center text" style="padding: 0; margin-top: 10px;"><?php echo Yii::t('youtoo','Create an Account'); ?></h3>
+    <div style='border:2px solid #cfcfcf; border-radius: 4px;'>
+    <div class="form-group">
+        <?php echo $form->textField($user, 'first_name', array('class' => 'form-control fabmob_round-border-top', 'placeholder' =>'Nombre')); ?>
+        <?php echo $form->error($user, 'first_name'); ?>
+        <span class="help-block hidden"></span>
+    </div>
+    <div class="form-group">
+        <?php echo $form->textField($user, 'last_name', array('class' => 'form-control fabmob_round-border-top', 'placeholder' => 'Apellido')); ?>
+        <?php echo $form->error($user, 'last_name'); ?>
+        <span class="help-block hidden"></span>
+    </div>
+    <div class="form-group">
+        <?php echo $form->passwordField($user, 'password', array('class' => 'form-control', 'placeholder' => 'Contraseña')); ?>
+        <?php echo $form->error($user, 'password'); ?>
+        <span class="help-block hidden"></span>
+    </div>
+    <div class="form-group">
+        <?php echo $form->passwordField($user, 'confirm_password', array('class' => 'form-control', 'placeholder' => 'Confirmar contraseña')); ?>
+        <?php echo $form->error($user, 'confirm_password'); ?>
+        <span class="help-block hidden"></span>
+    </div>
+    <div class="form-group">
+        <?php echo $form->textField($user, 'username', array('class' => 'form-control', 'placeholder' => 'Correo Electrónico')); ?>
+        <?php echo $form->error($user, 'password'); ?>
+        <span class="help-block hidden"></span>
+    </div>
+    <div class="form-group">
+        <?php echo $form->dropDownList($userLocation, 'state', ClientUtility::getUSStates(),array('class' => 'form-control', 'placeholder' => 'Código postal/ZIP')); ?>
+        <?php echo $form->error($userLocation, 'postal_code'); ?>
+        <span class="help-block hidden"></span>
+    </div>
+    </div>
+    <div class="form-group text" style='padding: 0px;'>
+        <span id="fabmob_sign-up-terms-input-label" style="font-size: 12px; width: 100%; font-weight: 300; margin-bottom: 0px;"><?php echo $form->checkBox($user, 'terms_accepted'); ?>
+            <?php echo Yii::t('youtoo','I agree to'); ?>
+            <a class="active" style="text-decoration:none; font-size: 12px; color:#ea8417 !important; font-weight: 300;" href="<?php echo Yii::app()->createUrl('site/terms');?>">
+               <?php echo Yii::t('youtoo','Terms of Use'); ?></a> <?php echo Yii::t('youtoo','and the'); ?>
+            <a class="active" style="text-decoration:none; font-size: 12px; color:#ea8417 !important; font-weight: 300;" href="<?php echo Yii::app()->createUrl('site/privacy');?>">
+                <?php echo Yii::t('youtoo','Privacy Policy'); ?></a>
+
+        </span>
+        <?php echo $form->error($user, 'terms_accepted'); ?>
+    </div>
+    <div class="form-group text" style='padding: 0px;'>
+    <span id="fabmob_sign-up-terms-input-label" style="font-size: 12px; width: 100%; font-weight: 300; margin-top: 0px;"><?php echo $form->checkbox($user, 'age_accepted', '', array('checked' => '', 'value' => 1)); ?>
+                <span class='over_18'>
+                    <?php echo Yii::t('youtoo','I confirm that I am atleast 21 years of age.'); ?>
+                </span>
+    </span>
+                <?php echo $form->error($user, 'age_accepted'); ?>
+    </div>
+    <button id="signUpButton" class="btn btn-default" style="min-width: 165px; min-height: 45px; font-size: 19px; width: 100%;"><?php echo Yii::t('youtoo','Sign Up'); ?></button>
+    <?php $this->endWidget(); ?>
+    <p id="fabmob_login-register-copy" class="text">
+        <a id="fabmob_login-register-link" class="active" style="color:#ea8417 !important; text-decoration: none; font-size: 18px;" href="/login"><?php echo Yii::t('youtoo','Already have an account?'); ?></a>
+    </p>
+</div>

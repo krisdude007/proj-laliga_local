@@ -1,0 +1,52 @@
+<div id="pageContainer">
+    <div class="subContainer" style="padding:0px;">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1 style="color: #df9721;"><?php echo Yii::t('youtoo', 'Store') ?></h1>
+                <div class="borderBottom">&nbsp;</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-8 col-xs-offset-2">
+
+                <?php
+                $prizeFormat = '
+                    <span class="col-md-4">
+                        <div class="thumbnail" style="background-color: #2d2926;">
+                            <img class="img-responsive" src="%s" alt="...">
+                            <div class="caption">
+                            <h3 style="min-height: 55px; font-size: 18px;">%s</h3>
+                            %s
+                            <p><input class="btn btn-default btn-lg active" style="font-size: 15px; min-width: 175px;" role="button" type="submit" value="%s"></p>
+                            </div>
+                        </div>
+                     </span>
+                ';
+                if (sizeof($prizes) > 0) {
+                    foreach ($prizes as $prize) {
+                            $form = $this->beginWidget('CActiveForm', array(
+                                'id' => 'user-redeem-form',
+                                'enableAjaxValidation' => false,
+                                'clientOptions' => array(
+                                    'validateOnSubmit' => false,
+                                    'validateOnChange' => false,
+                                    'validateOnType' => false,
+                                )
+                            ));
+                            if ($prize->quantity > 0) {
+                            echo sprintf(
+                                    $prizeFormat,
+                                    '/' . basename(Yii::app()->params['paths']['image']) . "/{$prize->image}",
+                                    $prize->name,
+                                    $form->hiddenField($prize,'id',array('value'=>$prize->id)),
+                                    ($prize->credits_required==1)?(Yii::t('youtoo','{value} Credit/Dollar',array('{value}'=>$prize->credits_required))):(Yii::t('youtoo','{value} Credits/Dollars',array('{value}'=>$prize->credits_required)))
+                            );
+                            $this->endWidget();
+                        }
+                    }
+                }
+                ?>
+            </div>
+        </div>
+    </div>
+</div>

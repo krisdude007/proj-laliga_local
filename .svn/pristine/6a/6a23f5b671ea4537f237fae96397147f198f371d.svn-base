@@ -1,0 +1,58 @@
+<div id="pageContainer" class="container">
+    <div class="subContainer">
+        <div class="row">
+            <div class="col-xs-8 col-xs-offset-2">
+                <h1><?php echo Yii::t('youtoo','Thanks for Playing!')?></h1>
+                <p class="lead">
+                    <?php if($isCorrect || $credit > 0): ?>
+                    <?php echo Yii::t('youtoo',"Thank you for answering. We have charged 5. You have earned {credits}. You can redeem",array('{credits}'=>$credit));?>
+                    <?php //elseif($credit > 0): ?>
+                    <?php //echo Yii::t('youtoo',"You were charged AEDS. Unfortunately, you answered incorrectly, but you've still earned {credits} credits. Visit the online store to redeem your credits.",array('{credits}'=>$credit));?>
+                    <?php //else: ?>
+                    <?php //echo Yii::t('youtoo',"You were charged AEDS. Unfortunately, you answered incorrectly.");?>
+                    <?php endif; ?>
+                </p>
+                <p>
+                    <a href="<?php echo $this->createUrl('/site/redeem', array()); ?>" class="btn btn-default btn-lg active" role="button"><?php echo Yii::t('youtoo','Redeem Credits')?></a>
+                </p>
+                <p>
+                    <a href="<?php echo $this->createUrl('/actel/payment', array()); ?>" class="btn btn-default btn-lg active" role="button"><?php echo Yii::t('youtoo','Play again')?></a>
+                </p>
+                <br/>
+                <p>
+                    <table style="width: 100%;border: 1px solid #cdcdcd; text-align: left;">
+                        <tr>
+                        <td style='width:50%;background-color: #dedede;padding: 12px;'>
+                            <h4><?php echo Yii::t('youtoo','Thank you.')?></h4>
+                            <h5><img src="/webassets/images/actel/slide2.png"/></h5>
+                            <p>
+                            <h5><?php echo Yii::t('youtoo','Order number')?>: <?php echo $orderNo ?></h5>
+                            <h5><?php echo Yii::t('youtoo','Order date')?>: <?php echo(date('l dS F Y h:i:s A T', strtotime($date))) ?></h5>
+                            <h5><?php echo Yii::t('youtoo','Payment method')?>: SMS</h5>
+                            </p>
+                        </td>
+                        <td style='width:50%;background-color: #ffffff;padding: 12px;'>
+                            <div style='overflow:hidden;'>
+                                <h4 style='display: inline;'><?php echo Yii::t('youtoo','Credits earned')?>:</h4> <h5 style='display: inline;'><?php echo $credit ?> <?php echo Yii::t('youtoo','Credits')?></h5>
+                            </div>
+                            <br/>
+                            <hr style='margin: 2px 0px;'>
+                            <div style='overflow:hidden;'>
+                                <h4 style='float:left;width: 50%;'><?php echo Yii::t('youtoo','Item')?></h4><h4 style='float:right;'><?php echo Yii::t('youtoo','Price')?></h4>
+                            </div>
+                            <hr style='margin: 2px 0px;'>
+                            <div style='overflow:hidden;'>
+                                <h4 style='float:left;width: 50%;'><?php echo Yii::t('youtoo','(1) Game play')?></h4><h4 style='float:right;'> <?php echo $price ?> درهم</h4>
+                            </div>
+                            <hr style='margin: 2px 0px;'>
+                            <div style='overflow:hidden;'>
+                                <h4 style='float:left;width: 50%;'></h4><h4 style='float:right;'><?php echo Yii::t('youtoo','Total')?>: <?php echo $price ?> درهم</h4>
+                            </div>
+                        </td>
+                        </tr>
+                    </table>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

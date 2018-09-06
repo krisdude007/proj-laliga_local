@@ -1,0 +1,279 @@
+
+<?php
+$cs = Yii::app()->clientScript;
+$cs->registerCssFile('/core/webassets/css/game/reveal.css');
+$cs->registerCoreScript('jquery', CClientScript::POS_END);
+$stripe = StripeUtility::config();
+?>
+
+<style type="text/css">
+    .message {
+        margin: 150px 0px 150px 0px;
+        font-size: 25px;
+        text-align: center;
+        color: #5C5E5B;
+    }
+
+    .game {
+        margin: 10px 0px 20px 0px;
+        direction: ltr;
+        text-align: center;
+    }
+
+    .game .question {
+        margin: 0px 0px 5px 0px;
+        font-size: 38px;
+        text-align: center;
+        font-weight: bold;
+        color: #df9721;
+    }
+
+    .game .description {
+        font-size: 16px;
+        font-weight: 200;
+        line-height: 1.4;
+        margin-bottom: 5px;
+    }
+
+    .game .options {
+        color: #ffffff;
+        font-size: 20px;
+        display:inline-block;
+        margin: 10px auto;
+        text-align: left;
+    }
+
+    .game .submit_button {
+        margin: 5px 0px 0px 0px;
+        text-align: center;
+    }
+    
+    #countdown {
+        color: #8F090A;
+        font-size: 25px;
+        font-weight: bold;
+    }
+</style>
+
+<style type="text/css">
+    
+.imageMain {
+    width: <?php echo $reveal->image_main_w; ?>px;
+    height: <?php echo $reveal->image_main_h; ?>px;
+    margin: 20px auto;
+    background-size: <?php echo $reveal->image_main_w; ?>px <?php echo $reveal->image_main_h; ?>px;
+    background-image: url('<?php echo $reveal->grid_background; ?>');
+    color: black;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.imageSection {
+    float: left; 
+    width: <?php echo $reveal->image_section_w; ?>px; 
+    height: <?php echo $reveal->image_section_h; ?>px;
+    background: <?php echo $reveal->square_color; ?>;
+    opacity: .995;
+    text-align: center;
+    border: 1px solid black;
+}
+
+.imageSection p {
+    margin: <?php echo $reveal->image_section_h/2-10; ?>px 0px 0px 0px;
+}
+
+.imageOpaque {
+    opacity: .1;
+}
+
+.boxShowTile {
+    width: 200px;
+    margin: 10px auto;
+}
+
+.boxShowTileButton {
+    margin: 0px 0px 5px 0px;
+    text-align: center;
+}
+
+.boxShowTile button {
+    width: 120px;
+}
+
+#tileCount {
+    width: 200px;
+    margin: 0px 0px 0px 0px;
+    text-align: center;
+}
+
+#buttonPay {
+    display:none;
+}
+    
+</style>
+
+<script type="text/javascript">
+    
+var grid_id = <?php echo $reveal->id; ?>;
+var grid_array = <?php echo json_encode($reveal_grid); ?>;
+var grid_info = <?php echo json_encode($reveal_info); ?>;
+var grid_total_tiles = <?php echo $reveal->total_squares; ?>;
+//var grid_num_shown = 1;
+//var grid_num_to_show_auto = 4;
+//var grid_num_to_show_user = 4;
+var grid_num_to_show = grid_info['num_to_show_auto'];
+    
+$(document).ready(function() {
+    showGrid();
+    updateTileCount();
+    
+    $("#buttonShowTile").click(function(e) {
+        if(grid_info['num_to_show_user'] > 0) {
+            grid_num_to_show++;
+            grid_info['num_to_show_user']--;
+            grid_info['num_shown'] = 1;
+            showGrid();
+            updateTileCount();
+        }
+    });
+});
+
+function showGrid() {
+    for(i = 0; i <= grid_total_tiles; i++) {
+        if(grid_info['num_shown'] <= grid_num_to_show) {
+            if(grid_array[i].is_shown == 1) {
+               $("#bk"+grid_array[i].grid_section).addClass("imageOpaque");
+               grid_info['num_shown']++;
+            } else {
+                $("#bk"+grid_array[i].grid_section).removeClass("imageOpaque");
+            }
+        }
+    }
+}
+
+function updateTileCount() {
+    if(grid_info['num_to_show_user'] == 0 && grid_num_to_show == grid_total_tiles) {
+        $("#buttonShowTile").prop("disabled",true);
+        $("#tileCount").html(grid_info['num_to_show_user']+" Tiles left.");
+    } else if(grid_info['num_to_show_user'] == 0) {
+        $("#buttonShowTile").hide();
+        $("#buttonPay").show();
+        $("#tileCount").html(grid_info['num_to_show_user']+" Tiles left, Buy 4 more for $1.");
+    } else {
+        $("#tileCount").html(grid_info['num_to_show_user']+" Tiles left.");
+    }
+}
+
+</script>
+
+<?php 
+    $anum = 0;
+    
+    foreach($game->gameChoiceAnswers as $answer) {
+        if(in_array($answer->label, array('A','B','C','D'))) {
+            $anum++;
+        }
+    }
+?>
+
+<script type="text/javascript">
+    
+$(document).ready(function(){
+    var anum = <?php echo $anum; ?>;
+    $("#eGameChoiceResponse_game_choice_answer_id_"+anum).hide();
+    $("#eGameChoiceResponse_game_choice_answer_id_"+anum+" + label").hide();
+});
+
+<?php if($game_manager['is_countdown']) { ?>
+var counter = <?php echo $game_manager['countdown']; ?>;
+var interval = setInterval(function() {
+    counter--;
+    $("#countdown").text(counter);
+    
+    if(counter == 0) {
+        window.clearInterval(interval);
+        $("#eGameChoiceResponse_game_choice_answer_id_4").prop( "checked", true );
+        $( "#game-choice-form" ).submit();
+    }
+    
+}, 1000);
+<?php } ?>
+</script>
+
+<div id="pageContainer" class="container">
+    <div class="imageMain">
+        <?php
+        for($i=1; $i<=$reveal->total_squares; $i++) {
+            echo '<div id="bk'.$i.'" class="imageSection"><p>'.$i.'</p></div>';
+        }
+        ?>
+    </div>
+    <div class="boxShowTile">
+        <div class="boxShowTileButton">
+            <button id="buttonShowTile" type="button">Show Tile</button>
+            <div id="buttonPay">
+                <form action="/playnow" method="post">
+                    <script src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button"
+                            data-key="<?php echo $stripe['publishable_key']; ?>"
+                            data-amount="100"
+                            data-name="Baldini's"
+                            data-description="At Home Sweepstakes"></script>
+                </form>
+            </div>
+        </div>
+        <div id="tileCount"></div>
+    </div>
+    <div class="form">
+        <div class="game" class="fab-left fab-voting-left">
+            <?php
+            $form = $this->beginWidget('CActiveForm', array(
+                'id' => 'game-choice-form',
+                'enableAjaxValidation' => true,
+                'enableClientValidation' => true,
+                'clientOptions' => array(
+                        'validateOnSubmit' => true,
+                    )
+            ));
+            
+            if($game_manager['is_countdown']) {
+                echo '<div class="countdown"><span id="countdown">15</span> Seconds Left...</div>';
+            }
+            
+            echo '<div class="question">' . $game->question . '</div>';
+            //echo '<div class="description">' . $game->description . '</div>';
+            echo '<div class="description">Answer the question and play now for $1 for your chance to win $3,500 this week!</div>';
+
+            $answerArray = Array();
+            $answerAutoArray = Array();
+            $i = 0;
+            foreach ($game->gameChoiceAnswers as $answer) {
+                if($i < sizeof($game->gameChoiceAnswers)-1) {
+                    $answerArray[$answer->id] = $answer->answer;
+                }
+                $i++;
+            }
+
+            echo '<div class="options">'.$form->radioButtonList($response, 'game_choice_answer_id', $answerArray).'</div>';
+
+            echo $form->error($response, 'game_choice_answer_id');
+
+            echo $form->hiddenField($response, 'game_choice_id', array('value' => $game->id));
+
+            if (Utility::isMobile()) {
+                $source = 'mobile';
+            } else {
+                $source = 'web';
+            }
+
+            echo $form->hiddenField($response, 'source', array('value' => $source));
+            ?>
+            <div class="submit_button" style="clear:both">
+                <?php echo CHtml::submitButton(Yii::t('youtoo', 'Submit Answer'), array('class' => 'btn btn-default btn-lg', 'id' => 'gamebutton')); ?>
+            </div>
+            
+            <div style="margin: 20px 0px 0px 0px;">For each dollar you pay, you receive $1 in credits for food, beer, merchandise or free play at Baldinis!  At a minimum, you get 2 beers or a burger basket for each entry!</div>
+        </div>
+
+        <?php $this->endWidget(); ?>
+    </div>
+</div>

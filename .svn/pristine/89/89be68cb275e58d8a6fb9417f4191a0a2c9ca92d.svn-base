@@ -1,0 +1,92 @@
+<div id="pageContainer">
+    <div class="subContainer" style="padding: 0px;">
+        <?php if (Yii::app()->user->isGuest): ?>
+            <div id="sidebar-wrapper">
+                <ul class="sidebar-nav">
+                    <li class="sidebar-brand" style="text-indent: 30px; height: 55px;"><a href="#" style="font-size: 21px; font-weight: 500;">Join Now</a></li><li class="btn btn-default btn-sm startButton" style="text-indent: 0; line-height: normal;">Get Started</li><hr class='hr'/>
+                    <li class="<?php if ($this->activeNavLink == 'index'): ?>active<?php endif; ?>"><a href="<?php echo $this->createUrl('/site/index', array()); ?>">Main</a></li>
+                    <li class="<?php if ($this->activeNavLink == 'redeem'): ?>active<?php endif; ?>"><a href="<?php echo $this->createUrl('/site/redeem', array()); ?>">Store</a></li>
+                    <li class="<?php if ($this->activeNavLink == 'winners'): ?>active<?php endif; ?>"><a href="<?php echo $this->createUrl('/site/winners', array()); ?>">Winners</a></li>
+                    <li><a href="#">Refer a Friend</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+        <?php else: ?>
+            <div id="sidebar-wrapper">
+                <ul class="sidebar-nav">
+                    <?php if (!Yii::app()->user->isGuest): ?>
+                        <li class="sidebar-brand" style="text-align: center; height: 40px; text-indent: 0px;"><a href="#" style="font-size: 17px; font-weight: 500;"><?php echo $user->first_name . ' ' . $user->last_name; ?></a></li><div style="text-align: center; color: #ffffff; font-size: 12px;">Cash Balance : <?php echo '<span style="color: #f9d83d;">$' .GameUtility::getCashBalance($user->id) . '</span>'; ?></div><div style="text-align: center; color: #ffffff; font-size: 12px;">Credits : <?php echo '<span style="color: #f9d83d;">' . $balance['credits_total'] . '</span>'; ?></div>
+                        <li class="btn btn-default btn-sm startButton" style="text-indent: 0; line-height: normal; margin-top: 10px; font-size: 12px;"><?php echo Yii::t('youtoo', 'Add Funds'); ?></li><hr class='hr'/>
+                    <?php else: ?>
+                        <li class="sidebar-brand" style="text-indent: 30px; height: 55px;"><a href="#" style="font-size: 21px; font-weight: 500;">Join Now</a></li><li class="btn btn-default btn-sm startButton" style="text-indent: 0; line-height: normal;"><?php echo Yii::t('youtoo', 'Get Started'); ?></li><hr class='hr'/>
+                    <?php endif; ?>
+                    <li><a href="<?php echo $this->createUrl('/site/index', array()); ?>"><?php echo Yii::t('youtoo', 'Main'); ?></a></li>
+                    <li><a href="<?php echo $this->createUrl('/site/redeem', array()); ?>"><?php echo Yii::t('youtoo', 'Store'); ?></a></li>
+                    <li class="active"><a href="<?php echo $this->createUrl('/site/winners', array()); ?>"><?php echo Yii::t('youtoo', 'Winners'); ?></a></li>
+                    <li><a href="#"><?php echo Yii::t('youtoo', 'Refer a Friend'); ?></a></li>
+                    <li><a href="<?php echo $this->createUrl('/site/faq', array()); ?>"><?php echo Yii::t('youtoo', 'FAQ'); ?></a></li>
+                    <li class="panel panel-default" id="dropdown">
+                        <a data-toggle="collapse" href="#dropdown-lvl1">
+                            <span></span> Account <span class="caret"></span>
+                        </a>
+                        <?php if (Yii::app()->controller->id == 'user' && Yii::app()->controller->action->id == 'credits'): ?>
+                            <div id="dropdown-lvl1" class="panel-collapse in">
+                            <?php else: ?>
+                                <div id="dropdown-lvl1" class="panel-collapse collapse">
+                                <?php endif; ?>
+                                <div class="panel-body">
+                                    <ul class="nav navbar-nav">
+                                        <li><a style='color: #ffffff;' <?php if ($this->activeSubNavLink == 'basicinfo'): ?>class='active'<?php endif; ?> href="<?php echo $this->createUrl('/user/profile', array()); ?>"><?php echo Yii::t('youtoo', 'Basic Info'); ?></a></li>
+                                        <li><a style='color: #ffffff;' <?php if ($this->activeSubNavLink == 'password'): ?>class='active'<?php endif; ?> href="<?php echo $this->createUrl('/user/password', array()); ?>"><?php echo Yii::t('youtoo', 'Password'); ?></a></li>
+                                        <li><a style='color: #ffffff;' <?php if ($this->activeSubNavLink == 'credits'): ?>class='active'<?php endif; ?> href="<?php echo $this->createUrl('/user/credits', array()); ?>"><?php echo Yii::t('youtoo', 'Credits'); ?></a></li>
+                                        <li><a style='color: #ffffff;' <?php if ($this->activeSubNavLink == 'paymentinfo'): ?>class='active'<?php endif; ?> href="<?php echo $this->createUrl('/payment', array()); ?>"><?php echo Yii::t('youtoo', 'Payment Method'); ?></a></li>
+                                        <li><a style='color: #ffffff;' <?php if ($this->activeSubNavLink == 'connections'): ?>class='active'<?php endif; ?> href="<?php echo $this->createUrl('/user/connections', array()); ?>"><?php echo Yii::t('youtoo', 'Connections'); ?></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                    </li>
+                    <li><a href="<?php echo $this->createUrl('/user/logout', array()); ?>"><?php echo Yii::t('youtoo', 'Log Out'); ?></a></li>
+                </ul>
+            </div>
+        <?php endif; ?>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-lg-12">
+                <h3 class="alignLeft" style="font-size: 22px; font-weight: 300;"><img src="/webassets/images/laliga/icon_crown.png" style="margin-right: 10px; padding-bottom: 5px;"/><?php echo Yii::t('youtoo', 'Winners') ?></h3>
+                <div class="table-responsive">
+                    <table class="table table-bordered" style="background-color: #eeeeee; border: 1px solid #eeeeee;">
+                        <col width="30%">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center; width: 150px; border: 1px solid #eeeeee;"><?php echo Yii::t('youtoo', 'Player ID') ?></th>
+                                <th style="text-align: center; border: 1px solid #eeeeee;"><?php echo Yii::t('youtoo', 'Prize') ?></th>
+                                <th style="text-align: center; border: 1px solid #eeeeee;"><?php echo Yii::t('youtoo', 'Question') ?></th>
+                                <th style="text-align: center; width: 80px;"><?php echo Yii::t('youtoo', 'Answer') ?></th>
+                                <th style="text-align: center; width: 100px; background-color: #e1e1e1;"><?php echo Yii::t('youtoo', 'Date') ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $i = 0; ?>
+                            <?php foreach ($winners as $winner): ?>
+                                <?php
+                                if ($winner->winner_username && $winner->id == 4) {
+                                    $i = $i + 1;
+                                    ?>
+                                    <tr>
+                                        <td class="alignLeft" style="border: 1px solid #eeeeee;"><?php echo $winner->winner_firstname . ' ' . $winner->winner_lastname; ?></td>
+                                        <td class="alignLeft" style="border: 1px solid #eeeeee;"><?php echo $winner->prize; ?></td>
+                                        <td class="alignLeft" style="border: 1px solid #eeeeee;"><?php echo $winner->question; ?></td>
+                                        <td class="alignLeft" style="border: 1px solid #eeeeee;"><?php echo $winner->gameChoiceAnswers[0]->answer; ?></td>
+                                        <td style='text-align: center;background-color: #e1e1e1;' ><?php echo date("M j, Y", strtotime($winner->end_date)); ?></td>
+                                    </tr>
+                                <?php } ?>
+                            <?php endforeach; ?>
+                            <?php if ($i == 0): ?>
+                                <tr><td colspan="5" style="text-align: center; border: 1px solid #eeeeee;">PLEASE COME BACK TO SEE THE BALDINI'S AT-HOME SWEEPSTAKES WINNERS LIST NEXT WEEK.  THANKS</td></tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

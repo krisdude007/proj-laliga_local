@@ -1,0 +1,40 @@
+<?php
+    $stripe = StripeUtility::config();
+?>
+
+<div id="pageContainer" class="container">
+    <div class="subContainer">
+        <div class="row">
+            <div class="col-xs-8 col-xs-offset-2" style="background-color: #f7f9fa; max-width: 662px; min-height: 278px; width: 100%;">
+
+                <?php
+                //if($next_game_id == 0) {
+                    echo Yii::t('youtoo',"No more games available for today, please comeback tomorrow for more games.");
+                //} else {
+                ?>
+                <div>
+                    <div style="margin: 20px 0px 20px 0px;">
+                        <form action="/processstripe/game_choice/<?php //echo $next_game_id; ?>" method="post">
+                            <script src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button"
+                                    data-key="<?php echo $stripe['publishable_key']; ?>"
+                                    data-amount="100"
+                                    data-name="Baldini's"
+                                    data-description="At Home Sweepstakes"></script>
+                        </form>
+                    </div>
+<!--                    <div><a style="font-size: 14pt;text-decoration: underline;" href="<?php //echo Yii::app()->createURL("/expressCheckOut/{$model->tableName()}/{$model->id}"); ?>"><img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/checkout-logo-large.png" alt="PayPal" /></a></div>-->
+                </div>
+                <?php //} ?>
+                <p>
+<!--                    <a href="<?php //echo $this->createUrl('/playnow', array()); ?>" class="btn btn-default btn-lg active" role="button"><?php //echo Yii::t('youtoo','Play Again')?></a>-->
+                </p>
+                <br/>
+                <p>
+                <?php echo Yii::t('youtoo',"Remember, each dollar you spend earns you credits to exchange for beer, food, merchandise and free play at Baldinis.  At a minimum, you receive 2 beers or a burger basket for playing.");?>
+                </p>
+                <br/>
+
+            </div>
+        </div>
+    </div>
+</div>

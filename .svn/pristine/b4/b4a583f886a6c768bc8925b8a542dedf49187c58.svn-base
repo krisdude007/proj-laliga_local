@@ -1,0 +1,61 @@
+
+<div id="pageContainer">
+    <div class="row">
+        <!--
+        <div id="topPlayersContainer" class="col-xs-3 col-sm-2 col-lg-2">
+            <div class="text-center">
+                <h4 id="topPlayersTitle">Top Players</h4>
+                <p class="lead text-right"><strong>4535</strong><br><small><?php echo number_format(mt_rand()); ?> points</small></p>
+                <p class="lead text-right"><strong>4535</strong><br><small><?php echo number_format(mt_rand()); ?> points</small></p>
+                <p class="lead text-right"><strong>4535</strong><br><small><?php echo number_format(mt_rand()); ?> points</small></p>
+                <p class="lead text-right"><strong>4535</strong><br><small><?php echo number_format(mt_rand()); ?> points</small></p>
+                <p class="lead text-right"><strong>4535</strong><br><small><?php echo number_format(mt_rand()); ?> points</small></p>
+                <p class="lead text-right"><strong>4535</strong><br><small><?php echo number_format(mt_rand()); ?> points</small></p>
+                <p class="lead text-right"><strong>4535</strong><br><small><?php echo number_format(mt_rand()); ?> points</small></p>
+                <p class="lead text-right"><strong>4535</strong><br><small><?php echo number_format(mt_rand()); ?> points</small></p>
+                <p class="lead text-right"><strong>4535</strong><br><small><?php echo number_format(mt_rand()); ?> points</small></p>
+                <p class="lead text-right"><strong>4535</strong><br><small><?php echo number_format(mt_rand()); ?> points</small></p>
+            </div>
+
+        </div>
+        <div class="col-xs-9 col-sm-10 col-lg-10">-->
+        <div class="col-xs-12 col-sm-12 col-lg-12">
+            <h1 class="alignLeft" style="color: #df9721;"><?php echo Yii::t('youtoo', 'Past Winners') ?></h1>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <col width="30%">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center; width: 150px;"><?php echo Yii::t('youtoo', 'Player ID') ?></th>
+                            <th style="text-align: center;"><?php echo Yii::t('youtoo', 'Prize') ?></th>
+                            <th style="text-align: center;"><?php echo Yii::t('youtoo', 'Question') ?></th>
+                            <th style="text-align: center; width: 80px;"><?php echo Yii::t('youtoo', 'Answer') ?></th>
+                            <th style="text-align: center; width: 100px;"><?php echo Yii::t('youtoo', 'Date') ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $i = 0; ?>
+                        <?php foreach ($winners as $winner): ?>
+                            <?php
+                            if ($winner->winner_username && $winner->id == 4) {
+                                $i = $i + 1;
+                            ?>
+                                <tr>
+                                    <td class="alignLeft"><?php echo $winner->winner_firstname . ' ' . $winner->winner_lastname; ?></td>
+                                    <td class="alignLeft"><?php echo $winner->prize; ?></td>
+                                    <td class="alignLeft"><?php echo $winner->question; ?></td>
+                                    <td class="alignLeft"><?php echo $winner->gameChoiceAnswers[0]->answer; ?></td>
+                                    <td style='text-align: center;' ><?php echo date("M j, Y", strtotime($winner->end_date)); ?></td>
+                                </tr>
+                            <?php } ?>
+                        <?php endforeach; ?>
+                        <?php if($i == 0): ?>
+                            <tr><td colspan="5" style="text-align: center;">PLEASE COME BACK TO SEE THE BALDINI'S AT-HOME SWEEPSTAKES WINNERS LIST NEXT WEEK.  THANKS</td></tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>

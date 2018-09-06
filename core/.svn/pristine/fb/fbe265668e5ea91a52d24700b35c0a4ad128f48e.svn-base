@@ -1,0 +1,19 @@
+<?php
+
+class GeoUtility {
+    public static function GeoLocation() {
+        $validGeoUser = eGeoLocationInfo::model()->findbyAttributes(array('ip_address' => ClientUtility::getClientIpAddress()));
+        
+        $geoLocation = array('isExists' => 0, 'isShared' => 0, 'isValid' => 0);
+        
+        if(!is_null($validGeoUser) && $validGeoUser->is_validlocation == 1) {
+            $geoLocation['isValid'] = 1;
+        } else {
+            $geoLocation['isValid'] = 0;
+        }
+        
+        return $geoLocation;
+    }
+}
+
+?>

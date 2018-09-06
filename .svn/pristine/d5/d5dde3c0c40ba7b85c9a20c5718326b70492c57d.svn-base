@@ -1,0 +1,54 @@
+<?php
+$cs = Yii::app()->getClientScript();
+
+$stripe = StripeUtility::config();
+?>
+
+<div id="pageContainer" class="container">
+    <div class="subContainer">
+        <div class="row">
+            <div class="col-xs-8 col-xs-offset-2">
+                <h1><?php echo Yii::t('youtoo', 'Play Now') ?></h1>
+                <?php if (isset(Yii::app()->session['twitter'])): ?>
+                    <p>
+                        <img src="/webassets/images/progress/3.png" style="max-width: 500px;"/>
+                    </p>
+                <?php endif; ?>
+                <p class="lead">
+                    <?php echo Yii::t('youtoo', 'To play simply click the button below to pay and select your answer for a chance to win $3,500!') ?>
+                </p>
+                <p class="lead">
+                    <?php //echo Yii::t('youtoo', "This payment is for Game ".Yii::app()->session['game_on_set'].", consisting of ".Yii::app()->session['game_num_in_set']." question(s).") ?>
+                </p>
+            </div>
+        </div>
+         <div class="row">
+            <div style="max-width:800px;margin: 0 auto;">
+
+                <div>
+
+                    <div style="margin: 20px 0px 20px 0px;">
+                        <form action="/processstripe/<?php echo $model->tableName()."/".$model->id; ?>" method="post">
+                            <script src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button"
+                                    data-key="<?php echo $stripe['publishable_key']; ?>"
+                                    data-amount="100"
+                                    data-name="Baldini's"
+                                    data-description="At Home Sweepstakes"></script>
+                        </form>
+                    </div>
+<!--                    <div><a style="font-size: 14pt;text-decoration: underline;" href="<?php //echo Yii::app()->createURL("/expressCheckOut/{$model->tableName()}/{$model->id}"); ?>"><img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/checkout-logo-large.png" alt="PayPal" /></a></div>-->
+                </div>
+            </div>
+        </div>
+        <div style="color: #df9721; font-size: 16px; margin: 0px 0px 20px 0px;">Each entry earns you food, beverages, free play and merchandise from Baldinis!</div>
+    </div>
+</div>
+
+
+<script>
+    function twit_check(me) {
+        checked = document.getElementById('');
+    }
+
+</script>
+

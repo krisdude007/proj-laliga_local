@@ -1,0 +1,8 @@
+<div class="link">
+    <div onclick="window.location='<?php echo Yii::app()->createUrl('/termsofuse'); ?>'"><a href="<?php echo Yii::app()->createUrl('/termsofuse'); ?>">Terms of Use</a></div>
+    <hr></hr>
+    <div onclick="window.location=''"><a href="<?php echo Yii::app()->createUrl('site/privacy'); ?>">Privacy Policy</a></div>
+    <hr></hr>
+    <div onclick="window.location='http://www.youtootech.com/patents'"><a href="http://www.youtootech.com/patents">Youtoo Technologies, LLC Patents</a></div>
+    <hr></hr>
+</div>

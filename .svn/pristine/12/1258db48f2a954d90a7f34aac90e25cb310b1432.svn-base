@@ -1,0 +1,171 @@
+<?php
+$cs = Yii::app()->clientScript;
+$cs->registerCoreScript('jquery', CClientScript::POS_END);
+$stripe = StripeUtility::config();
+?>
+
+<?php
+$anum = 0;
+
+foreach ($game->gameChoiceAnswers as $answer) {
+    if (in_array($answer->label, array('A', 'B', 'C', 'D'))) {
+        $anum++;
+    }
+}
+?>
+<style>
+    input[type=radio] {
+    display:none;
+    margin:20px;
+}
+
+input[type=radio] + label {
+    display:inline-block;
+}
+
+input[type=radio]:checked + label {
+   background-image: none;
+    background-color:#d0d0d0;
+}
+
+</style>
+
+<div id="pageContainer" class="container" style='padding-right: 0px; padding-left: 0px;'>
+    <div class='subContainer'>
+        <?php if (Yii::app()->user->isGuest): ?>
+            <div id="sidebar-wrapper">
+                <ul class="sidebar-nav">
+                    <li class="sidebar-brand" style="text-indent: 30px; height: 55px;"><a href="#" style="font-size: 21px; font-weight: 500;"><?php echo Yii::t('youtoo','Join Now');?></a></li><li class="btn btn-default btn-sm startButton" style="text-indent: 0; line-height: normal;"><?php echo Yii::t('youtoo','Get Started');?></li><hr class='hr'/>
+                    <li class="<?php if ($this->activeNavLink == 'index'): ?>active<?php endif; ?>"><a href="<?php echo $this->createUrl('/site/index', array()); ?>"><?php echo Yii::t('youtoo','Main');?></a></li>
+                    <li class="<?php if ($this->activeNavLink == 'redeem'): ?>active<?php endif; ?>"><a href="<?php echo $this->createUrl('/site/redeem', array()); ?>"><?php echo Yii::t('youtoo','Store');?></a></li>
+                    <li class="<?php if ($this->activeNavLink == 'winners'): ?>active<?php endif; ?>"><a href="<?php echo $this->createUrl('/site/winners', array()); ?>"><?php echo Yii::t('youtoo','Winners');?></a></li>
+                    <li><a href="#"><?php echo Yii::t('youtoo','Refer a Friend');?></a></li>
+                    <li><a href="#"><?php echo Yii::t('youtoo','FAQ');?></a></li>
+                </ul>
+            </div>
+        <?php else: ?>
+            <div id="sidebar-wrapper">
+                <ul class="sidebar-nav">
+                    <?php if (!Yii::app()->user->isGuest): ?>
+                        <li class="sidebar-brand" style="text-align: center; height: 40px; text-indent: 0px;"><a href="#" style="font-size: 17px; font-weight: 500;"><?php echo $user->first_name . ' ' . $user->last_name; ?></a></li><div style="text-align: center; color: #ffffff; font-size: 12px;"><?php echo Yii::t('youtoo','Cash Balance');?> : <?php echo '<span style="color: #f9d83d;">$' . GameUtility::getCashBalance($user->id) . '</span>'; ?></div><div style="text-align: center; color: #ffffff; font-size: 12px;"><?php echo Yii::t('youtoo','Credits');?> : <?php echo '<span style="color: #f9d83d;">' . $balance['credits_total'] . '</span>'; ?></div>
+                        <a class="btn btn-default btn-sm startButton" style="text-indent: 0; line-height: normal; margin-top: 10px; font-size: 12px;" href="<?php echo $this->createUrl('/payment', array()); ?>"><?php echo Yii::t('youtoo', 'Add Funds'); ?></a><hr class='hr'/>
+                    <?php else: ?>
+                        <li class="sidebar-brand" style="text-indent: 30px; height: 55px;"><a href="#" style="font-size: 21px; font-weight: 500;"><?php echo Yii::t('youtoo','Join Now');?></a></li><a class="btn btn-default btn-sm startButton" style="text-indent: 0; line-height: normal;" href='<?php echo $this->createUrl('/register', array()); ?>'><?php echo Yii::t('youtoo', 'Get Started'); ?></a><hr class='hr'/>
+                    <?php endif; ?>
+                    <li><a href="<?php echo $this->createUrl('/site/index', array()); ?>"><?php echo Yii::t('youtoo', 'Main'); ?></a></li>
+                    <li><a href="<?php echo $this->createUrl('/site/redeem', array()); ?>"><?php echo Yii::t('youtoo', 'Store'); ?></a></li>
+                    <li><a href="<?php echo $this->createUrl('/site/winners', array()); ?>"><?php echo Yii::t('youtoo', 'Winners'); ?></a></li>
+                    <li><a href="#"><?php echo Yii::t('youtoo', 'Refer a Friend'); ?></a></li>
+                    <li><a href="#"><?php echo Yii::t('youtoo', 'FAQ'); ?></a></li>
+                    <li class="panel panel-default" id="dropdown">
+                        <a data-toggle="collapse" href="#dropdown-lvl1">
+                            <span></span> <?php echo Yii::t('youtoo','Account');?> <span class="caret"></span>
+                        </a>
+                        <?php if (Yii::app()->controller->id == 'user' && Yii::app()->controller->action->id == 'credits'): ?>
+                            <div id="dropdown-lvl1" class="panel-collapse in">
+                            <?php else: ?>
+                                <div id="dropdown-lvl1" class="panel-collapse collapse">
+                                <?php endif; ?>
+                                <div class="panel-body">
+                                    <ul class="nav navbar-nav">
+                                        <li><a style='color: #ffffff;' <?php if ($this->activeSubNavLink == 'basicinfo'): ?>class='active'<?php endif; ?> href="<?php echo $this->createUrl('/user/profile', array()); ?>"><?php echo Yii::t('youtoo', 'Basic Info'); ?></a></li>
+                                        <li><a style='color: #ffffff;' <?php if ($this->activeSubNavLink == 'password'): ?>class='active'<?php endif; ?> href="<?php echo $this->createUrl('/user/password', array()); ?>"><?php echo Yii::t('youtoo', 'Password'); ?></a></li>
+                                        <li><a style='color: #ffffff;' <?php if ($this->activeSubNavLink == 'credits'): ?>class='active'<?php endif; ?> href="<?php echo $this->createUrl('/user/credits', array()); ?>"><?php echo Yii::t('youtoo', 'Credits'); ?></a></li>
+                                        <li><a style='color: #ffffff;' <?php if ($this->activeSubNavLink == 'paymentinfo'): ?>class='active'<?php endif; ?> href="<?php echo $this->createUrl('/payment', array()); ?>"><?php echo Yii::t('youtoo', 'Payment Method'); ?></a></li>
+                                        <li><a style='color: #ffffff;' <?php if ($this->activeSubNavLink == 'connections'): ?>class='active'<?php endif; ?> href="<?php echo $this->createUrl('/user/credits', array()); ?>"><?php echo Yii::t('youtoo', 'Connections'); ?></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    <li><a href="<?php echo $this->createUrl('/user/logout', array()); ?>"><?php echo Yii::t('youtoo', 'Log Out'); ?></a></li>
+                </ul>
+            </div>
+        <?php endif; ?>
+        <div class="row" style='margin-right: -31px; margin-left: -36px;'>
+            <div class="col-sm-12" style='padding-right: 0px; padding-left: 0px; top: -30px;'>
+                <div class='col-sm-2' style='padding-left:0px; margin-left: 10px; margin-top: 20px;' ><img src="/webassets/images/laliga/image_win-1000-small.png"/></div>
+                <div class='col-sm-8' style="text-align: left; margin-left: 71px; margin-top: 20px; padding-right: 0px; width: 56.73%; padding-left: 0px;"><h4 style='margin-top: 0px;'><?php echo Yii::t('youtoo','Azteca Friday Night Futbol '). $game->prize; ?></h4>
+                    <p style='font-size: 10px;'><?php echo Yii::t('youtoo','Each Friday, Azteca will air a Futbol Match. You have to pick the winner. It\'s only $1.00 to select<br/>your answer. If you are right, then your will entered to win the weekly prize for this game.'); ?></p>
+                    <p style='font-size: 10px;'>
+                        <?php echo Yii::t('youtoo','Players for Game #1 will be able to choose from the two playing teams or a tie. Example:<br/>Choose Team A, Team B or Tie.') ?>
+                    </p>
+                </div>
+                <div class='col-sm-2' style='background-color: #f9d83d;padding-left: 0px; padding-right: 0px; min-height: 139px;'>
+                    <div style='background-color: #222222;'><h4 style='margin-top: 0px; color: #ffffff;'><?php echo Yii::t('youtoo','Countdown'); ?></h4></div>
+
+                </div>
+            </div>
+        </div>
+        <div class='row' style='margin-top: -30px;'>
+            <div class="col-sm-12" style="padding-right: 0px; padding-left: 0px; left: -23px;top: -30px;">
+                <div style='background-color: #f9cb3d; width: 100%; max-height: 40px; min-height: 40px;min-width: 823px; clear: both;'>
+                    <div class='col-sm-3'>
+                        <?php echo '<h4 style="margin-top: 0px; margin-bottom: 0px; text-align: left; padding: 10px; margin-left: 10px;">'. Yii::t('youtoo','Entries').': '. ($game->num_users_free + $game->num_users_paid) .'</h4>'; ?>
+                    </div>
+                    <div class='col-sm-3' style='padding-left: 0px; padding-right: 0px;'>
+                         <?php echo '<h4 style="margin-top: 0px; margin-bottom: 0px; text-align: left; padding: 10px;">'. Yii::t('youtoo','Entry fee').': $'. $game->price. '</h4>'; ?>
+                    </div>
+                    <div class='col-sm-4'>
+                         <?php echo '<h4 style="margin-top: 0px; margin-bottom: 0px; text-align: left; padding: 10px;">'. Yii::t('youtoo','Total prize').': '. $game->prize .'</h4>'; ?>
+                    </div>
+                </div>
+                <div class='gameEntry' style='width: 100%; background-color: #eeeeee; min-height: 299px; min-width: 823px;'>
+                    <div class="form">
+                        <div class="game" class="fab-left fab-voting-left">
+                            <?php
+                            $form = $this->beginWidget('CActiveForm', array(
+                                'id' => 'game-choice-form',
+                                'enableAjaxValidation' => true,
+                                'enableClientValidation' => true,
+                                'clientOptions' => array(
+                                    'validateOnSubmit' => true,
+                                )
+                            ));
+                            echo '<div class="question" style="font-size: 23px; font-weight: 500; padding-top: 30px;">' . $game->question . '</div>';
+                            $answerArray = Array();
+                            $answerAutoArray = Array();
+                            $i = 1;
+                            $op = 1;
+
+                            foreach ($game->gameChoiceAnswers as $answer) {
+                                if ($i < sizeof($game->gameChoiceAnswers) - 1) {
+                                    $answerArray[$answer->id] = $answer->answer;
+                                }
+                                $i++;
+                            }
+                            echo "<div class='optionsButton'>";
+                            echo "<div style='padding: 30px; padding-top: 0px;'>";
+                            echo "<img style='padding: 20px 58px 0px 0px;' src='/webassets/images/laliga/teamOption_1.png'/>";
+                            echo "<img style='padding: 20px 58px 0px;' src='/webassets/images/laliga/teamOption_2.png'/>";
+                            echo "<img style='padding: 20px 0px 0px 58px;' src='/webassets/images/laliga/teamOption_3.png'/>";
+                            echo "</div>";
+
+                            echo $form->radioButtonList($response, 'game_choice_answer_id', $answerArray, array('labelOptions'=>array('style'=>"display:inline;')", 'class' => 'btn btn-default btn-md', 'style' => 'min-width: 183px; min-height: 43px;font-size: 15px; padding: 12px 12px;margin-right: 15px;'), 'template'=>"{input} {label}", 'separator'=>'&nbsp&nbsp;&nbsp;','onclick' => 'submitOption();'));
+                            echo "</div>";
+                            echo $form->error($response, 'game_choice_answer_id');
+                            echo $form->hiddenField($response, 'game_choice_id', array('value' => $game->id));
+                            $op++;
+                            if (Utility::isMobile()) {
+                                $source = 'mobile';
+                            } else {
+                                $source = 'web';
+                            }
+                            echo $form->hiddenField($response, 'source', array('value' => $source));
+                            ?>
+<!--                            <div class="submit_button" style="clear:both">
+                                <?php //echo CHtml::submitButton(Yii::t('youtoo', 'Submit Answer'), array('class' => 'btn btn-default btn-lg', 'id' => 'gamebutton')); ?>
+                            </div>-->
+                        </div>
+                        <?php $this->endWidget(); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script>
+
+       $('input[type=radio]').on('change', function() {
+           $('#game-choice-form').submit();
+        });
+    </script>

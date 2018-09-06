@@ -1,0 +1,107 @@
+<!-- ModalRules -->
+<div class="modal fade" id="modalRules" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" style='color:#000000' id="myModalLabel"><?php echo Yii::t('youtoo','Rules') ?></h4>
+            </div>
+            <div class="modal-body" style='color:#000000'>
+                <p>
+    <p>
+    <strong>Baldini’s Rules </strong>
+</p>
+<p>
+    The Sweepstakes is organized by Baldini’s and referenced as “organizer”. The User is referenced as “players, entrants, participants, winners and
+    non-winners”. Each entry of the Sweepstakes is one (1) dollar and billed through the Sweepstakes player’s credit card as explained below.
+</p>
+<p>
+    <strong>Sweepstakes Opening and Closing Dates</strong>
+</p>
+<p>
+    The Sweepstakes will run from the 4th of May 2015 until 31th of May 2015. Baldini’s has the option to close or extend Sweepstakes and will update rules
+    where applicable and publish them on this site.<strong> </strong>Any entries received after the Closing date of the Sweepstakes (for whatever reason) will
+    be not qualify for a prize. <strong></strong>
+</p>
+<p>
+    <strong>Sweepstakes Description</strong>
+    <strong></strong>
+</p>
+<p>
+    The Sweepstakes is an interactive multiple-choice question and answering task; where the participants are asked to select the right answer to get a chance
+    to qualify them to enter into the draw in order to win prizes.
+</p>
+<p>
+    <strong>Qualifying Entrants</strong>
+    <strong></strong>
+</p>
+<p>
+    Employees (or members of the families or households of employees) for the Organizer, or its partners, for the period of the Sweepstakes, and also their
+    spouses and immediate family are not entitled to participate in the Sweepstakes.
+</p>
+<p>
+    <strong>Routes of Entry</strong>
+    <strong></strong>
+</p>
+<p>
+    There are three ways to enter: Twitter, Website, and by Mail.
+</p>
+<p>
+    <strong>Regulations of participation in the Sweepstakes:</strong>
+    <strong></strong>
+</p>
+<p>
+    Once the participant enters the Sweepstakes on the website, User/Participant will be able to answer a question and 4 possible answers (one answer is
+    correct and the other three are wrong). The participant answers the question by clicking on their choice of a correct answer’s “Radio Button”. A
+    participant can play as many as ten (10) times in a day. The more correct entries by a player could potentially increase their probability to win.
+</p>
+<p>
+    For each correct answer to the question, the participant receives 1 entry into a drawing for the prize. All players receive credits for the store for
+    playing. Credits are on a 1 to 1 ratio. Current price to play is one (1) dollar; so players receive 1 credit for the store for each entry. Wrong/Invalid
+    answers do not receive an entry into the drawing for the prize, but still receive credits for playing to be used in the store.
+</p>
+<p>
+    <strong>Winner Selection</strong>
+    <strong></strong>
+</p>
+<p>
+    Weekly Winners will be selected through a “Computerized Random-Draw” at the premises of the Organizer.
+</p>
+<p>
+    The Organizer reserves the right to cancel or amend the offer and these Terms and Conditions/Official Rules at any time. Any changes will be posted online
+    at <strong>Baldinis.youtoo.com</strong>
+</p>
+<p>
+    <strong>Terms of the prizes</strong>
+    <strong></strong>
+</p>
+<p>
+    Baldini’s notifies the winner via a phone call and/or email.
+</p>
+<p>
+    The winners must confirm in signing a winner’s release form that they are entitled to the prize and shall complete all the necessary documents provided by
+    the Organizer. All winners must provide identification in person in order to receive the prize.
+</p>
+<p>
+    The winner may appear to collect the prize having his/her valid ID. Alternatively, the organizer may choose to send the prize to the winner by mail upon
+    completion and verification of the required documentation.
+</p>
+<p>
+    Claims for prizes must be made in the manner and within the time specified on the Sweepstakes Terms. Failure to claim a prize within this time or in the
+    manner specified may result in disqualification and selection of an alternate winner. The winner is responsible for payment of any taxes where applicable
+    for the prize.
+</p>
+<p>
+    <strong>Termination</strong>
+    <strong></strong>
+</p>
+<p>
+    Interruption or early termination of the Sweepstakes shall not release the Organizer from its obligation to give out already awarded prizes and execute
+    other actions required, except for the cases when termination or interruption of the Sweepstakes was called by actions or events which are not under the
+    Organizer’s control or fraud has been discovered and properly evaluated by authorities.
+</p>
+            </div>
+
+        </div>
+    </div>
+</div>

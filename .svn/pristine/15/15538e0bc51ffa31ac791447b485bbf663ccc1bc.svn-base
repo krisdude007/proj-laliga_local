@@ -1,0 +1,63 @@
+<html>
+    <head>
+    	<meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+
+    </head>
+    <body style='width:626px;height:680px;background-color:#ececec;font-family:Arial;font-size:12px; color: #696969;padding-top:10px;'>
+
+        <div id='content' style='width:600px;   margin:0 auto;background-color:#ffffff; '>
+
+           <img src='http://{hostname}/webassets/images/Header.png'/>
+           <div style='padding-left:10px; padding-right:10px;'>
+                <div style='font-size:28px;color:#696969;font-weight:bold;margin-bottom:10px;'>Your Video has been approved</div>
+                <p>Hi <span style='font-weight:bold;'>{first_name} {last_name},</span></p>
+
+                <p>
+                Congratulations! Your video submission has been accepted for consideration on
+                Youtoo America TV! Each time one of your videos is accepted, you are more likely to be seen on TV!
+    			</p>
+    			<p>
+                We will contact you regarding the placement of your video – the date
+                and time YOU will be seen on national television. Be sure to tell all of your
+                friends and family! In the meantime, click on the image below to view your
+                video on <a href='http://www.youtoo.com'>Youtoo.com</a>!
+    			</p>
+
+    			<div>
+    				<a href='http://{hostname}/play/{view_key}'><img height='79' width='140' src='{thumbnail}' /></a>
+    			</div>
+
+
+                <p>
+                Add your Facebook, Twitter, and Youtube credentials to your <a href='http://www.youtoo.com'>youtoo.com</a> account. When you do, you can
+                automatically send your video to all your social media outlets at the same time. Create once, publish
+                everywhere...only with <a href='http://www.youtoo.com'>youtoo.com</a>!
+     			</p>
+
+
+
+                <p>
+                Thanks!<br>
+                Youtoo America<br>
+                <a href='http://www.youtoo.com'>www.youtoo.com</a>
+                </p>
+                <br>
+                <div style='width:200px;height:30px;background-color:#1792cd;display:block;padding-top:15px;'>
+             		<a href='http://{hostname}/videos/recent' style='position:absolute !important;color:#ffffff; font-size:14px;font-weight:bold;text-decoration:none;padding-left:21px;'>GO SEE MORE VIDEOS</a>
+             	</div>
+             	<br>
+             	<br>
+            </div>
+        </div>
+         <div style='padding-left:5px;'>
+            <p>
+            	To UNSUBSCRIBE from future email notifications,  <a href='http://{hostname}/you/profile' style='color: #636363'>click here</a><br>
+            </p>
+            <p style='margin-top:15px;'>
+            	&#169; <?php echo date('Y'); ?> Youtoo Interactive <a style='color:#696969;' href='http://www.youtoo.com/you/terms' target='_blank'>Terms of Use</a> & <a style='color:#696969;' href='http://www.youtoo.com/you/privacy' target='_blank' >Privacy Policy</a>.
+             	Youtoo Technologies, LLC <a href='http://youtootech.com/patents' target='_blank' style='color: #636363'>youtootech.com/patents</a>
+            </p>
+        </div>
+
+    </body>
+</html>

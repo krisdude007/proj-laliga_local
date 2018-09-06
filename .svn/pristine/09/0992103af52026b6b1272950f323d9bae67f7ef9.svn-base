@@ -1,0 +1,4 @@
+<div class="link">
+    <div onclick="window.location=''"><a href="">FAQ</a></div>
+    <hr></hr>
+</div>

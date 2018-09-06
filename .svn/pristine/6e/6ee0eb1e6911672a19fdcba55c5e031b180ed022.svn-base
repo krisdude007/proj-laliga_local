@@ -1,0 +1,7 @@
+<div class="link">
+    <?php foreach ($games as $game): ?>
+    <div onclick="window.location='<?php echo Yii::app()->createUrl('/winlooseordraw/'.$game->id, array()); ?>'"><a style="font-weight: 100;" href="<?php echo Yii::app()->createUrl('/winlooseordraw/'.$game->id, array());?>"><?php echo $game->description; ?></a></div>
+    <hr></hr>
+    <?php endforeach; ?>
+
+</div>

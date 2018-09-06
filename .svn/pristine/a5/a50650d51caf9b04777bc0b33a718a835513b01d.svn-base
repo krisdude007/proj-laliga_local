@@ -1,0 +1,26 @@
+<div id="pageContainer" class="container" style="background: url('/webassets/images/newbground.png') no-repeat; max-width:648px; height: 608px; ">
+    <div class="subContainer">
+        <?php
+        echo "<div class='background'>";
+//echo "<h1 style='color: #df9721; font-size: 27px; text-shadow:2px 2px 0px #8f090a; background: transparent;'>WELCOME TO THE \"AT-HOME SWEEPSTAKES\"</h1>";
+//echo "<h1 style='color: #ffffff; font-size: 22px; text-shadow:2px 2px 0px #8f090a; background: transparent;'>HOW TO ENTER FOR A CHANCE TO WIN $3,500</h1>";
+//echo "<h1 style='color: #df9721; font-size: 19px; text-shadow:2px 2px 0px #8f090a; background: transparent;'>JUST FOLLOW OUR THREE SIMPLE STEPS:</h1>";
+//echo "<h5 style='color: #ffffff; text-shadow:2px 2px 0px #8f090a; margin-left: 24px; text-align: left; background: transparent; line-height: 1.5;'>1.     IT ONLY COSTS ONE DOLLAR TO PLAY.  YOU CAN PAY THROUGH PAYPAL OR USE A CREDIT CARD.</h3>";
+//echo "<h5 style='color: #ffffff; text-shadow:2px 2px 0px #8f090a; margin-left: 24px; text-align: left; background: transparent;'>2.     YOU HAVE 15 SECONDS TO ANSWER EACH QUESTION.</h3>";
+//echo "<br/><br/>";
+echo "<div style='color: #ffffff; text-shadow:2px 2px 0px #8f090a; font-size: 16px; background: transparent; line-height: 1.5; padding-top: 300px; padding-bottom: 10px;'></div>";
+//echo "<div style='color: #ffffff; text-shadow:2px 2px 0px #8f090a; font-size: 20px; background: transparent; width: 400px; margin: 0 auto; '>How Long Has Baldini's Been Sparks' Favorite Local Casino?</div>";
+    //echo "<div style='color: #ffffff; text-shadow:2px 2px 0px #8f090a; font-size: 20px; background: transparent; width: 400px; margin: 0 auto; '>The Contest is over, look us up for a new contest in a few weeks, in the mean time check out the winner of the last contest <a href=\"https://baldinis.youtoo.com/winners\">here</a>.</div>";
+//echo "<div style='background: transparent; color: #ffffff; width: 350px; margin: 0 auto; text-align: left; padding-left: 230px; padding-top: 10px; padding-bottom: 7px; line-height: 1.5;'>";
+//echo "<input type='radio' name='game_choice' id='game_choice_1' value=''> 26 years<br>";
+//echo "<input type='radio' name='game_choice' id='game_choice_2' value=''> 1 Million Years<br>";
+//echo "</div>";
+//echo  strpos($_SERVER["HTTP_USER_AGENT"], 'Firefox') ? "<a href='https://baldinis.youtoo.com' onclick='isChecked(); return false;' id='game_redirect' class='linkButton' style='margin: 2px;'>Submit</a>" : "<a href='https://baldinis.youtoo.com' onclick='isChecked(); return false;' id='game_redirect' class='linkButton'>Submit</a>";
+echo "<div style='background: transparent; color: #ffffff; margin: 0px 135px 5px; font-size: 25px; '>The Contest is over, we will have a new contest starting very soon. In the mean time check out the winner of the last contest <a style='color: #DF9721;' href=\"https://baldinis.youtoo.com/winners\">here</a>.</div>";
+echo strpos($_SERVER["HTTP_USER_AGENT"], 'Firefox') ? "<div style='background: transparent; color: #ffffff; margin: 5px 130px 0px; font-size: 12px; '>For each paid entry, you receive $1 in credits to exchange for beer, food, merchandise or free play at Baldinis! At a <br>minimum you get 2 beers or a burger basket for each entry!</div>" : "<div style='background: transparent; color: #ffffff; margin: 0px 130px 0px; font-size: 12px; '>For each paid entry, you receive $1 in credits to exchange for beer, food, merchandise or free play at Laligas! At a <br>minimum you get 2 beers or a burger basket for each entry!</div>";
+echo strpos($_SERVER["HTTP_USER_AGENT"], 'Firefox') ? "<div style='background: transparent; color: #ffffff; margin: 5px 130px; font-size: 10px; '>*This is not gambling or gaming</div>" : "<div style='background: transparent; color: #ffffff; margin: 10px 130px; font-size: 10px; '>*This is not gambling or gaming</div>";
+echo "<div style='background: transparent; color: #DF9721; text-align: left; margin: 10px 125px; font-size: 11px;'><a href='https://baldinis.youtoo.com/termsofuse' target='_blank' style='color: #DF9721; '>Terms of use & privacy policy</a> | <a href='https://baldinis.youtoo.com' target='_blank' style='color: #DF9721; '>Rules</a> | <a href='https://baldinis.youtoo.com' target='_blank' style='color: #DF9721; '>FAQ</a> | <a href='http://youtootech.com/patents' target='_blank' style='color: #DF9721; '>Youtootech.com/patents</a></div>";
+echo "</div>";
+?>
+    </div>
+</div>

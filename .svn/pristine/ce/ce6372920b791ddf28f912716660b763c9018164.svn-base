@@ -1,0 +1,74 @@
+<?php
+$cs = Yii::app()->getClientScript();
+
+$stripe = StripeUtility::config();
+?>
+<div id="pageContainer" class="container">
+    <div class="imageContainer">
+        <img id="userImage" src="/webassets/mobile/images/At-Home-Sweepstakes.png">
+    </div>
+    <div class="subContainer">
+        <div class="row">
+            <div class='col-xs-12' style='text-align: center;'>
+                <?php if (isset(Yii::app()->session['twitter'])): ?>
+                    <p>
+                        <img src="/webassets/images/progress/3.png" style="max-width: 500px;"/>
+                    </p>
+                <?php endif; ?>
+                <p class="lead" style='font-size: 20px; font-weight: bold;margin: 0px;'>
+                    <?php echo Yii::t('youtoo', 'THANKS FOR YOUR ANSWER!') ?>
+                </p>
+                <p class="lead" style='font-size: 14px; font-weight: normal;'>
+                    To complete your entry, pay $1 below
+                </p>
+            </div>
+        </div>
+        <div style='font-size: 14px; color:#ffc600;text-align: center;'>
+            Each entry earns you food, beverages, free play and merchandise from Baldinis!
+        </div>
+        <?php
+        $validGeoUser = eGeoLocationInfo::model()->findbyAttributes(array('ip_address' => ClientUtility::getClientIpAddress()));
+        if($validGeoUser->state == 'Nebraska')
+        {?>
+            <div class="row">
+            <div style="max-width:800px;margin: 0 auto;">
+                <?php if(!empty($key)): ?>
+                <div style=""><span style="color: #df9721; font-size: 18px;">Pay $1 (Plan) via </span><a style="font-size: 14pt;text-decoration: underline;" href="<?php echo Yii::app()->createURL("/payprocess/{$model->tableName()}/{$model->id}"); ?>"><img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_logo_h_200x51.png" alt="PayPal" /></a></div>
+                <?php else : ?>
+                <div style=""><span style="color: #df9721; font-size: 18px;">Setup $1 (Plan) via </span><a style="font-size: 14pt;text-decoration: underline;" href="<?php echo Yii::app()->createURL("/payprocess/{$model->tableName()}/{$model->id}"); ?>"><img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_logo_h_200x51.png" alt="PayPal" /></a></div>
+                <p>&nbsp;</p>
+                <div>or make one time payment</div>
+                <p>&nbsp;</p>
+                <div><span style="color: #df9721; font-size: 18px;">Pay $1 (One Time Payment) via </span><a style="font-size: 14pt;text-decoration: underline;" href="<?php echo Yii::app()->createURL("/expressCheckOut/{$model->tableName()}/{$model->id}"); ?>"><img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_logo_h_100x26.png" alt="PayPal" /></a></div>
+                <?php endif; ?>
+            </div>
+        </div>
+        <?php
+        }
+        else
+        {?>
+         <div class="row">
+            <div style="margin: 0 auto;">
+                <div style="margin: 20px 0px 20px 0px; text-align: center;">
+                    <form action="/processstripe/<?php echo $model->tableName()."/".$model->id; ?>" method="post">
+                        <script src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button"
+                                data-key="<?php echo $stripe['publishable_key']; ?>"
+                                data-amount="100"
+                                data-name="Baldini's"
+                                data-description="At Home Sweepstakes"></script>
+                    </form>
+                </div>
+<!--            <div><a style="font-size: 14pt;text-decoration: underline;" href="<?php //echo Yii::app()->createURL("/expressCheckOut/{$model->tableName()}/{$model->id}"); ?>"><img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/checkout-logo-large.png" alt="PayPal" /></a></div>-->
+            </div>
+        </div>
+        <?php
+        }?>
+    </div>
+</div>
+<script>
+    function twit_check(me) {
+        checked = document.getElementById('');
+    }
+
+</script>
+

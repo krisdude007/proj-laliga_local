@@ -1,0 +1,95 @@
+<style>
+    input[type=radio] {
+        display:none;
+        margin:20px;
+    }
+
+    input[type=radio] + label {
+        display:inline-block;
+    }
+
+    input[type=radio]:checked + label {
+        background-image: none;
+        background-color:#d0d0d0;
+    }
+
+</style>
+<div class='as-table'>
+    <div style='margin-bottom: 10px;'>
+        <div class="homeTop" style="width: 60%; float: left;">
+            <h4 style="margin-left: 40px; margin-bottom: 3px;">Next event live in <span style="background-color: #fbd927;"></span></h4>
+        </div>
+        <div class="homeTop" style="width: 40%; float: left; background-color: #fbd927;"><h4 style="margin-left: 40px; margin-bottom: 3px;">&nbsp;</h4></div>
+    </div>
+    <div class="fabmob_content-container text-center" style='padding: 0px;'>
+        <div style="text-align: left;margin-top: 20px;"><h4 style='margin-top: 0px; font-size: 13px; font-weight: 400;padding: 0px 15px 0px;'><?php echo Yii::t('youtoo', 'Azteca Friday Night Futbol ') . $game->prize; ?></h4>
+            <p style='font-size: 10px; margin: 0px 0px 5px; color: #474747; padding: 0px 15px 0px;'><?php echo Yii::t('youtoo', 'Each Friday, Azteca will air a Futbol Match. You have to pick the winner. It\'s only $1.00 to select<br/>your answer. If you are right, then your will entered to win the weekly prize for this game.'); ?></p>
+            <p style='font-size: 10px; margin: 0px 0px 5px; color: #474747; padding: 0px 15px 0px;'>
+                <?php echo Yii::t('youtoo', 'Players for Game #1 will be able to choose from the two playing teams or a tie. Example:<br/>Choose Team A, Team B or Tie.') ?>
+            </p>
+        </div>
+        <div style='background-color: #f9cb3d; width: 100%; max-height: 40px; min-height: 40px; clear: both;'>
+                    <div style="padding-left: 0px; padding-right: 0px; float: left;">
+                        <?php echo '<h4 style="margin-top: 0px; margin-bottom: 0px; text-align: left; padding: 10px; font-size: 10px;">'. Yii::t('youtoo','Entries').': '. ($game->num_plays_free + $game->num_plays_paid) .'</h4>'; ?>
+                    </div>
+                    <div style='padding-left: 0px; padding-right: 0px; float: left;'>
+                         <?php echo '<h4 style="margin-top: 0px; margin-bottom: 0px; text-align: left; padding: 10px; font-size: 10px;">'. Yii::t('youtoo','Entry fee').': $'. $game->price. '</h4>'; ?>
+                    </div>
+                    <div style="padding-left: 0px; padding-right: 0px;">
+                         <?php echo '<h4 style="margin-top: 0px; margin-bottom: 0px; text-align: left; padding: 10px; font-size: 10px;">'. Yii::t('youtoo','Total prize').': '. $game->prize .'</h4>'; ?>
+                    </div>
+        </div>
+        <div class="form">
+            <div class="game">
+                <?php
+                $form = $this->beginWidget('CActiveForm', array(
+                    'id' => 'game-choice-form',
+                    'enableAjaxValidation' => true,
+                    'enableClientValidation' => true,
+                    'clientOptions' => array(
+                        'validateOnSubmit' => true,
+                    )
+                ));
+                echo '<div class="question" style="font-size: 19px; font-weight: 500; padding-top: 30px; color: #474747; margin-bottom: 10px;">' . $game->question . '</div>';
+                $answerArray = Array();
+                $answerAutoArray = Array();
+                $i = 1;
+                $op = 1;
+
+                foreach ($game->gameChoiceAnswers as $answer) {
+                    if ($i < sizeof($game->gameChoiceAnswers) - 1) {
+                        $answerArray[$answer->id] = $answer->answer;
+                    }
+                    $i++;
+                }
+//
+//                echo "<div class='optionsButton'>";
+//                echo "<div style='padding: 30px; padding-top: 0px;'>";
+//                echo "<img style='padding: 20px 58px 0px 0px;' src='/webassets/images/laliga/teamOption_1.png'/>";
+//                echo "<img style='padding: 20px 58px 0px;' src='/webassets/images/laliga/teamOption_2.png'/>";
+//                echo "<img style='padding: 20px 0px 0px 58px;' src='/webassets/images/laliga/teamOption_3.png'/>";
+//                echo "</div>";
+
+                echo $form->radioButtonList($response, 'game_choice_answer_id', $answerArray, array('labelOptions' => array('style' => "display:inline;')", 'class' => 'btn btn-default btn-md', 'style' => 'min-width: 183px; min-height: 43px;font-size: 15px; padding: 3% 1% !important; margin-bottom: 10px; margin-top: 10px;'), 'template' => "{input} {label}", 'onclick' => 'submitOption();'));
+                echo "</div>";
+                echo $form->error($response, 'game_choice_answer_id');
+                echo $form->hiddenField($response, 'game_choice_id', array('value' => $game->id));
+                $op++;
+                if (Utility::isMobile()) {
+                    $source = 'mobile';
+                } else {
+                    $source = 'web';
+                }
+                echo $form->hiddenField($response, 'source', array('value' => $source));
+                ?>
+            </div>
+            <?php $this->endWidget(); ?>
+        </div>
+    </div>
+</div>
+<script>
+
+    $('input[type=radio]').on('change', function() {
+        $('#game-choice-form').submit();
+    });
+</script>

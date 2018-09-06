@@ -1,0 +1,70 @@
+<?php
+/* @var $this UserController */
+$cs = Yii::app()->getClientScript();
+$cs->registerScriptFile(Yii::app()->request->baseurl . '/webassets/js/jquery.oauthpopup.js', CClientScript::POS_END);
+?>
+<div id="pageContainer" class="container">
+    <?php //$this->renderPartial('_top', array()); ?>
+    <div class="row" style="max-width: 900px; margin: 0 auto;">
+        <!--        <div class="col-sm-3 col-xs-12 floatLeft">
+        <?php //$this->renderPartial('_sidebar', null); ?>
+                </div>-->
+        <p>&nbsp</p>
+        <p>&nbsp</p><p>&nbsp</p>
+        <p>&nbsp</p>
+        <div class="form">
+            <div class="form-group col-sm-8 col-sm-offset-2" style="overflow:hidden; text-align: center;">
+                <h1>GET CONNECTED</h1>
+                <?php if (isset(Yii::app()->session['twitter'])): ?>
+                    <p>
+                        <img src="/webassets/images/progress/2.png" style="max-width: 500px;"/>
+                    </p>
+                    <?php endif; ?>
+                <div class="textBox">
+                    <div class="bold">
+                        Before you proceed further, Click below to connect socially with Twitter.
+                    </div>
+                    <div class="twitter" style='margin-top: 40px;'>
+                        <a href="#" id="tw_conn" rel="<?php echo (!empty($user->userTwitters[0]->id)) ? '1' : '0'; ?>">
+                            <?php if (!empty($user->userTwitters[0]->id)): ?>
+                                <img src="/webassets/images/buttons/Button_Twitter_Connect_Social_Active.png" />
+                            <?php else: ?>
+                                <img src="/webassets/images/buttons/Button_Twitter_Connect_Social_Nuetral.png" />
+                            <?php endif; ?>
+                        </a>
+                        <span id="twitter_user">
+                            <?php if (!empty($user->userTwitters[0]->id)): ?>
+                                <a  href="http://www.twitter.com/<?php echo $twuser->screen_name; ?>" target="_blank"><?php echo $twuser->screen_name; ?></a>
+                            <?php else: ?>
+                                Not Connected.
+                            <?php endif; ?>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4 col-sm-offset-4 col-xs-8 col-xs-offset-2" style="text-align: center;">
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+                    <?php if (!empty($user->userTwitters[0]->id)): ?>
+                        <div>
+                            <a href="/actel/payment?play=0"><?php
+                                echo CHtml::submitButton(Yii::t('youtoo', 'Next'), array('class' => 'btn btn-default btn-lg active',
+                                    'role' => 'button'));
+                                ?></a>
+                        </div>
+                        <div>&nbsp;</div>
+                    <?php else: ?>
+                        <div>
+                            <?php
+                                echo CHtml::submitButton(Yii::t('youtoo', 'Next'), array('class' => 'btn btn-default btn-lg disabled',
+                                    'role' => 'button'));
+                                ?>
+                        </div>
+                        <div>&nbsp;</div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

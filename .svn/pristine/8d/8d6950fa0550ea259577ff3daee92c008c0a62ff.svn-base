@@ -1,0 +1,21 @@
+<div id="pageContainer" class="container">
+    <div class="subContainer">
+        <div id="map-canvas"></div>
+        <div class="col-xs-8 col-xs-offset-2">
+            <h1><?php echo Yii::t('youtoo', 'Welcome to Baldini\'s') ?></h1>
+            <p class="lead">
+                <?php echo Yii::t('youtoo', 'If you are from Reno, or from state of Nevada, you are welcome to play this game.'); ?>
+            </p>
+            <p><?php echo Yii::t('youtoo', 'Please allow us to access your location by choosing "Allow" or "Share Location" from your browser, so we can determine if you are currently, accessing our website, from Reno or State of Nevada.'); ?>
+            </p>
+            <div>&nbsp;</div>
+        </div>
+    </div>
+</div>
+</div>
+<script>
+    function showPopupWrap(text) {
+        $("#popupWrap .flashMobileContents").html(text);
+        $("#popupWrap").css('display', 'table');
+    }
+</script>

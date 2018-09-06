@@ -1,0 +1,12 @@
+<div class="text">
+    <div class='help'>
+        <div>
+            <h4><?php echo Yii::t('youtoo', 'La Isla Official Rules') ?></h4>
+        </div>
+        <div style='color:#474747;'>
+            <p>
+                <strong></strong>
+            </p>
+        </div>
+    </div>
+</div>

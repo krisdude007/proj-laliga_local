@@ -1,0 +1,10 @@
+<div class="row" style="border-bottom: 1px solid #c0c0c0;">
+    <div class="col-sm-9 col-xs-12" style="overflow: hidden;">
+        <div class="col-xs-4"></br><h4><?php echo Yii::t('youtoo','Credits Spent')?>: <?php echo $this->userBalance['credits_spent']; ?></h4></div>
+        <div class="col-xs-4"></br><h4><?php echo Yii::t('youtoo','Credits Earned')?>: <?php echo $this->userBalance['credits_earned']; ?></h4></div>
+        <div class="col-xs-4"></br><h4><?php echo Yii::t('youtoo','Total Credits')?>: <?php echo $this->userBalance['credits_total']; ?></h4></div>
+    </div>
+    <div class="col-sm-3 col-xs-12" style="border-left: 1px solid #c0c0c0;border-top: 1px solid #c0c0c0;">
+        <h3 style="font-size: 18px;"><?php echo Yii::app()->user->username; ?></h3>
+    </div>
+</div>

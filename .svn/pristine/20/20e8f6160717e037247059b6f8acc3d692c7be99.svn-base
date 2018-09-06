@@ -1,0 +1,57 @@
+<html>
+    <head>
+    	<meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+
+    </head>
+    <body style='width:626px;height:680px;background-color:#ececec;font-family:Arial;font-size:12px; color: #696969;padding-top:10px;'>
+
+        <div id='content' style='width:600px; margin:0 auto;background-color:#ffffff; '>
+
+           <img src='http://{hostname}/webassets/images/Header.png'/>
+           <div style='padding-left:10px; padding-right:10px;'>
+            <div style='font-size:28px;color:#696969;font-weight:bold;margin-bottom:10px;'>Welcome to Youtoo!</div>
+            <p>Hi <span style='font-weight:bold;'>{first_name} {last_name},</span></p>
+            <p>Now that you're a fully fledged member, it’s time to put You on TV! It’s only takes 3 easy steps!<br>
+                <div style='padding-left:40px;'>
+                    1. Click “Video — Record a Fame Spot” <br>
+                    2. Record your 15 second video <br>
+                    3. Submit! You can also share your Fame Spot on your social media accounts
+                </div>
+            </p>
+            <p style='font-size:12px;color:#696969;'>
+            	Thats’s it! You’re on you’re way to becoming a star!
+            </p>
+            <p style='padding-left:8px;padding-right:8px;'>
+                <div style='font-weight:bold;'>A Little About Youtoo</div>
+                Youtoo is the only Social TV Platform that allows You to participate in our television programming from virtually
+                any location. With a smart phone, tablet or webcam, you are just a few clicks away from being on your favorite
+                television shows. Now you can experience something that you might have never thought possible. Invite all
+                your friends and family to check YOU out on TV.
+            </p>
+
+            <p>
+            We hope you enjoy <a href='http://www.youtoo.com'>youtoo.com</a> and are looking forward to your feedback!
+            </p>
+
+            <p>
+            Thanks!<br>
+            Youtoo America<br>
+            <a href='http://www.youtoo.com'>www.youtoo.com</a>
+            </p>
+            <br>
+            </div>
+        </div>
+
+
+        <div style='padding-left:5px;'>
+            <p>
+            	To UNSUBSCRIBE from future email notifications,  <a href='http://{hostname}/you/profile' style='color: #636363'>click here</a><br>
+            </p>
+            <p style='margin-top:15px;'>
+            	&#169; <?php echo date('Y'); ?> Youtoo Interactive <a style='color:#696969;' href='http://www.youtoo.com/you/terms' target='_blank'>Terms of Use</a> & <a style='color:#696969;' href='http://www.youtoo.com/you/privacy' target='_blank' >Privacy Policy</a>.
+             	Youtoo Technologies, LLC <a href='http://youtootech.com/patents' target='_blank' style='color: #636363'>youtootech.com/patents</a>
+            </p>
+        </div>
+
+    </body>
+</html>

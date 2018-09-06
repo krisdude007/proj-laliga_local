@@ -1,0 +1,24 @@
+<div id="pageContainer" class="container">
+    <div class="subContainer">
+        <div class="row">
+            <div class="col-xs-8 col-xs-offset-2">
+                <h1><?php echo Yii::t('youtoo','Welcome')?></h1>
+                <p class="lead">
+                    <?php echo Yii::t('youtoo','Sorry, game play is not currently open for this game.');?>
+                     <?php echo Yii::t('youtoo','Please tune in at 11:00 CST or visit www.youtoo.com/game to see when the game starts'); ?>
+                </p>
+
+                <p class="lead">
+                    <?php echo Yii::t('youtoo','Or')?>
+                </p>
+
+                <p class="lead">
+                    <?php echo Yii::t('youtoo','Login to redeem credits')?>.
+                </p>
+                <p>
+                    <a href="<?php echo $this->createUrl('/site/redeem', array()); ?>" class="btn btn-default btn-lg active" role="button"><?php echo Yii::t('youtoo','Redeem Credits')?></a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

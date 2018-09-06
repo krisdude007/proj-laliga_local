@@ -1,0 +1,9 @@
+<div class="link">
+    <?php foreach ($games as $game): ?>
+    <?php if(date('U') > strtotime($game->open_date) && date('U') < strtotime($game->close_date)) {?>
+    <div onclick="window.location='<?php echo Yii::app()->createUrl('/winlooseordraw/'.$game->id, array()); ?>'"><a style="font-weight: 100;" href="<?php echo Yii::app()->createUrl('/winlooseordraw/'.$game->id, array());?>"><?php echo $game->description; ?></a></div>
+    <hr></hr>
+    <?php }?>
+    <?php endforeach; ?>
+
+</div>

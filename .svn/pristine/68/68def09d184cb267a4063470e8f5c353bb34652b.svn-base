@@ -1,0 +1,218 @@
+
+<?php
+$cs = Yii::app()->clientScript;
+$cs->registerCoreScript('jquery', CClientScript::POS_END);
+?>
+
+<style type="text/css">
+    .message {
+        margin: 150px 0px 150px 0px;
+        font-size: 25px;
+        text-align: center;
+        color: #5C5E5B;
+    }
+
+    .game {
+        margin: 0px 0px 50px 0px;
+        direction: ltr;
+        text-align: center;
+    }
+
+    .game .question {
+        font-size: 20px;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .game .description {
+        font-size: 16px;
+        font-weight: 200;
+        line-height: 1.4;
+        margin-bottom: 20px;
+    }
+
+    .game .options {
+        color: #ffffff;
+        font-size: 18px;
+        display:inline-block;
+        margin: 10px auto;
+        text-align: left;
+    }
+
+    .game .submit_button {
+        margin: 0px 0px 0px 0px;
+        text-align: center;
+    }
+
+    #countdown {
+        color: #8F090A;
+        font-size: 25px;
+        font-weight: bold;
+    }
+</style>
+
+<?php
+    $anum = 0;
+
+    foreach($game->gameChoiceAnswers as $answer)
+    {
+        if(in_array($answer->label, array('A','B','C','D'))) {
+            $anum++;
+        }
+    }
+?>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+    var anum = <?php echo $anum; ?>;
+    $("#eGameChoiceResponse_game_choice_answer_id_"+anum).hide();
+    $("#eGameChoiceResponse_game_choice_answer_id_"+anum+" + label").hide();
+});
+
+<?php if($game_manager['is_countdown']) { ?>
+var counter = <?php echo $game_manager['countdown']; ?>;
+var interval = setInterval(function() {
+    counter--;
+    $("#countdown").text(counter);
+
+    if(counter == 0) {
+        window.clearInterval(interval);
+        $("#eGameChoiceResponse_game_choice_answer_id_4").prop( "checked", true );
+        $( "#game-choice-form" ).submit();
+    }
+
+}, 1000);
+<?php } ?>
+</script>
+<div id="pageContainer" class="container">
+    <?php
+        if($game_manager['set']['on'] == 1) :
+    ?>
+    <div class="imageContainer">
+        <img id="userImage" src="/webassets/mobile/images/As-Seen-On-TV.png">
+    </div>
+    <div style="font-size: 13px;text-align: center;">Answer the question to be entered to win, it only cost <img style="height: 20px;" src="/webassets/mobile/images/Image_Dollar.png"></div>
+    <div class="form">
+        <div class="game" class="fab-left fab-voting-left">
+            <?php
+            $form = $this->beginWidget('CActiveForm', array(
+                'id' => 'game-choice-form',
+                'action' => 'gameredirect',
+                'enableAjaxValidation' => true,
+                'enableClientValidation' => true,
+                'clientOptions' => array(
+                        'validateOnSubmit' => true,
+                    )
+            ));
+
+            //echo '<div class="questioninfo">Game ' . $game_manager['set']['on'] . ', Question '.$game_manager['set']['on_q'].' of '.$game_manager['set']['num'].'.</div>';
+
+            if($game_manager['is_countdown']) {
+                echo '<div class="countdown"><span id="countdown">15</span> Seconds Left...</div>';
+            }
+
+            echo '<div class="question">' . $game->question . '</div>';
+
+            $answerArray = Array();
+            $answerAutoArray = Array();
+            $i = 0;
+            foreach ($game->gameChoiceAnswers as $answer) {
+                if($i < sizeof($game->gameChoiceAnswers)-1) {
+                    $answerArray[$answer->id] = $answer->answer;
+                }
+                $i++;
+            }
+
+            echo '<div class="options">'.$form->radioButtonList($response, 'game_choice_answer_id', $answerArray).'</div>';
+
+            echo $form->error($response, 'game_choice_answer_id');
+
+            echo $form->hiddenField($response, 'game_choice_id', array('value' => $game->id));
+
+            if (Utility::isMobile()) {
+                $source = 'mobile';
+            } else {
+                $source = 'web';
+            }
+
+            echo $form->hiddenField($response, 'source', array('value' => $source));
+            ?>
+            <div class="submit_button" style="clear:both">
+                <?php echo CHtml::submitButton(Yii::t('youtoo', 'Submit'), array('class' => 'btn btn-default btn-lg', 'id' => 'gamebutton', 'onclick' => 'window.location="/gameredirect"')); ?>
+            </div>
+            <div style="font-size:12px;padding:10px 30px 5px 30px;">For each dollar you pay, you receive $1 in credits for food, beer, merchandise or free play at Baldinis!  At a minimum, you get 2 beers or a burger basket for each entry!<br/>*This is not gambling or gaming</div>
+        </div>
+
+        <?php $this->endWidget(); ?>
+    </div>
+    <?php else: ?>
+    <div class="imageContainer" style="padding-bottom:25%;">
+        <img id="userImage" src="/webassets/mobile/images/At-Home-Sweepstakes.png">
+    </div>
+    <h4 style='font-size: 20px;font-weight: bold; text-align: center;'>YOU HAVE BEEN CHARGED $1.</h4>
+    <p class="lead" style='font-size: 0.7em;font-weight: normal; text-align: center;'>
+        You have earned 1 sweepstaked entry and 1 credit.
+    </p>
+    <p class="lead" style='font-weight: bold; text-align: center; padding: 0px 12px;color:#ffc600; '>
+        Would you like the chance to be entered<br/>3 more times for $1?
+    </p>
+    <div class="form">
+        <div class="game" class="fab-left fab-voting-left">
+            <?php
+            $form = $this->beginWidget('CActiveForm', array(
+                'id' => 'game-choice-form',
+                'action' => '/gameredirect',
+                'enableAjaxValidation' => true,
+                'enableClientValidation' => true,
+                'clientOptions' => array(
+                        'validateOnSubmit' => true,
+                    )
+            ));
+
+            //echo '<div class="questioninfo">Game ' . $game_manager['set']['on'] . ', Question '.$game_manager['set']['on_q'].' of '.$game_manager['set']['num'].'.</div>';
+
+            if($game_manager['is_countdown']) {
+                echo '<div class="countdown"><span id="countdown">15</span> Seconds Left...</div>';
+            }
+
+            echo '<div class="question">' . $game->question . '</div>';
+
+            $answerArray = Array();
+            $answerAutoArray = Array();
+            $i = 0;
+            foreach ($game->gameChoiceAnswers as $answer) {
+                if($i < sizeof($game->gameChoiceAnswers)-1) {
+                    $answerArray[$answer->id] = $answer->answer;
+                }
+                $i++;
+            }
+
+            echo '<div class="options">'.$form->radioButtonList($response, 'game_choice_answer_id', $answerArray).'</div>';
+
+            echo $form->error($response, 'game_choice_answer_id');
+
+            echo $form->hiddenField($response, 'game_choice_id', array('value' => $game->id));
+
+            if (Utility::isMobile()) {
+                $source = 'mobile';
+            } else {
+                $source = 'web';
+            }
+
+            echo $form->hiddenField($response, 'source', array('value' => $source));
+            ?>
+            <div class="submit_button" style="clear:both">
+                <?php echo CHtml::submitButton(Yii::t('youtoo', 'Submit'), array('class' => 'btn btn-default btn-lg', 'id' => 'gamebutton')); ?>
+            </div>
+            <div style="font-size:12px;padding: 10px 30px 5px 30px;">
+                Remember, each dollar you spend earns you
+                credits to exchange for beer, food, merchandise
+                and free play at Baldinis. At a minimum, you
+                receive 2 beers or a burger basket for playing
+            </div>
+        </div>
+        <?php $this->endWidget(); ?>
+    </div>
+    <?php endif; ?>
+</div>
